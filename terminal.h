@@ -47,6 +47,7 @@ class Terminal
         int ** provider_numbers;
         int ** manager_numbers;
         int ** operator_numbers;
-
         char ** member_status;
+        manage member;
+        manage provider;
 };

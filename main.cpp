@@ -7,12 +7,11 @@ int valid(int, int);
 
 int main()
 {
-    manage manage_member;
     Terminal terminal;
     information info; 
     char file[SIZE];
     strcpy(file, "member_info.txt");
-    terminal.get_disk_info(info);
+    terminal.menu(0);
 /*
     1) after service has been provided, provider checks member validity again
     2) provider is asked to write the date (MM-DD-YYYY)

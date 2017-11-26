@@ -39,9 +39,12 @@ int Terminal::menu(int user_type)
 }
 void Terminal::providers(int choice)
 {
-    if(choice == 1);
-    //disk record 
-    //verfication fomr
+    information info;
+
+    if(choice == 1)
+    {
+        get_disk_info(info);     //disk record and verification form
+    }
     else if(choice == 2);
     else;
 }
@@ -97,7 +100,7 @@ int Terminal::get_disk_info(information& info)
 
    info.current_month = 1 + ltm->tm_mon; info.current_day = ltm->tm_mday; info.current_year = 1900 + ltm->tm_year;
    info.current_hour = ltm->tm_hour; info.current_min = 1 + ltm->tm_min; info.current_sec = 1 + ltm->tm_sec;
-   cout << "\nCurrent date and time have been logged in the system: " << endl;
+   cout << "\nCurrent date and time have been logged in the system!" << endl;
 
    cout << "Additional Comments: ";
    cin.get(info.comments, SIZE, '\n');
@@ -105,6 +108,8 @@ int Terminal::get_disk_info(information& info)
 
    if(!write_to_file(info))
        cout << "Unable to write information to file" << endl;
+
+   //member.get_member_name(info);
 
 /*
     6) Use Service Code to look up fee and display it (+save it) 

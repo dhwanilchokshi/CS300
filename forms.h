@@ -61,7 +61,6 @@ class node:public data
         node * next;
 };
 
-
 class info
 {
     public:

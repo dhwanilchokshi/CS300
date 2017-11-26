@@ -180,5 +180,3 @@ int manage::remove(t_node *& root,int id_to_remove)
         remove(root->get_left(),id_to_remove);
         return remove(root->get_right(),id_to_remove);
 }
-
-
