@@ -14,6 +14,7 @@ class Terminal
         //User specific menus
         int menu(int user_type);
 
+
     protected:
         //User number validation functions
         int member_number_validation(int user_entry);

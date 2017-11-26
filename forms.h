@@ -8,6 +8,21 @@ using namespace std;
 
 const int SIZE = 100;
 
+struct information{
+    int service_month, service_day, service_year;
+    int current_month, current_day, current_year, current_hour, current_min, current_sec;
+    int member_number, provider_number, service_code;
+    int total_consults;
+    float service_fee;
+    double weekly_fee;
+    char comments[SIZE];
+    string member_name;
+    string provider_name;
+    string service_name;
+};
+
+
+
 class data
 {
     public:

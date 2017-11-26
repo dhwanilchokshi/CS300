@@ -1,18 +1,5 @@
 #include "tree.h"
 
-struct information{
-    int service_month, service_day, service_year;
-    int current_month, current_day, current_year, current_hour, current_min, current_sec;
-    int member_number, provider_number, service_code;
-    int total_consults;
-    float service_fee;
-    double weekly_fee;
-    char comments[SIZE];
-    string member_name;
-    string provider_name;
-    string service_name;
-};
-
 int get_disk_info(struct information&);
 int write_to_file(struct information);
 int write_provider_verification(struct information); 
