@@ -56,11 +56,17 @@ void Terminal::managers(int choice)
 void Terminal::operators(int choice)
 {
     common_info to_add;
+
     if(choice == 1)
     {
-        add_members(to_add);
+        char file[] = "member_info.txt";
+        add_members(to_add, file);
     }
-    else if(choice == 2);
+    else if(choice == 2)
+    {
+        char file[] = "provider_info.txt";
+        add_providers(to_add, file);
+    }
     else if(choice == 3);
     else;
 }
@@ -266,9 +272,8 @@ int Terminal::VERIFY_NUMBER_TEST(int number, int length)
 }
 
 
-int Terminal::add_members(common_info &to_add)
+int Terminal::add_members(common_info &to_add, char *file)
 {
-    char file[] = "member_info.txt";
     cout << "Full Name: ";
     getline(cin, to_add.Name);
 
@@ -295,15 +300,15 @@ int Terminal::add_members(common_info &to_add)
         cin.ignore();
     }while(!valid(to_add.Zip, 5));
 
-    write_to_member_file(to_add);
-    member.read_forms(file);
-    member.display();
+    write_to_file(to_add, file);
+    member.read_forms(file);        //add members to bst
+    //member.display();
 }
 
-int Terminal::write_to_member_file(common_info to_add)
+int Terminal::write_to_file(common_info to_add, char *file)
 {
     ofstream output;
-    output.open("member_info.txt", ios::app);
+    output.open(file, ios::app);
 
     if(!output)
         return 0;
@@ -311,4 +316,37 @@ int Terminal::write_to_member_file(common_info to_add)
     output << to_add.Name << ":" << to_add.Number << ":" << to_add.Street_address << ":" << to_add.City << ":" << to_add.State << 
         ":" << to_add.Zip << '\n';
     output.close();
+}
+
+int Terminal::add_providers(common_info &to_add, char *file)
+{
+    cout << "Full Name: ";
+    getline(cin, to_add.Name);
+
+    do
+    {
+        cout << "Number (9 digits): ";
+        cin >> to_add.Number;
+        cin.ignore();
+    }while(!valid(to_add.Number, 9));
+
+    cout << "Street Address: ";
+    getline(cin, to_add.Street_address);
+
+    cout << "City: ";
+    getline(cin, to_add.City);
+
+    cout << "State: ";
+    getline(cin, to_add.State);
+
+    do
+    {
+        cout << "Zip (5 digits): ";
+        cin >> to_add.Zip;
+        cin.ignore();
+    }while(!valid(to_add.Zip, 5));
+
+    write_to_file(to_add, file);
+    provider.read_forms(file);        //add providers to bst
+    //provider.display();
 }
