@@ -118,14 +118,13 @@ int manage::remove(int id_to_remove)
     else
         return remove(root,id_to_remove);
 }
+
 int manage::remove(t_node *& root,int id_to_remove)
 {
     if(!root)
         return 0;
     if(root->check_id(id_to_remove))
     {
-
-
       if(!root->get_left() && !root->get_right()) //if its a leaf
         {
             delete root;
@@ -202,4 +201,3 @@ int manage::get_member_name(t_node *&root, information &info)
         return get_member_name(root->get_right(), info);
 
 }
-

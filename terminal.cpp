@@ -67,7 +67,15 @@ void Terminal::operators(int choice)
         char file[] = "provider_info.txt";
         add_providers(to_add, file);
     }
-    else if(choice == 3);
+    else if(choice == 4)
+    {
+        int choice;
+        cout << "1 - Remove Members" << endl;
+        cout << "2 - Remove Providers" << endl;
+        cin >> choice;
+        cin.ignore();
+        remove(choice);
+    }
     else;
 }
 int Terminal::member_number_validation(int user_entry)
@@ -349,4 +357,49 @@ int Terminal::add_providers(common_info &to_add, char *file)
     write_to_file(to_add, file);
     provider.read_forms(file);        //add providers to bst
     //provider.display();
+}
+
+int Terminal::remove(int choice)
+{
+    if(choice == 1)
+    {
+        int member_id;
+        do
+        {
+            cout << "Please type ID# of member to remove (9 - digits): ";
+            cin >> member_id;
+            cin.ignore();
+        
+        }while(!valid(member_id, 9));
+
+        if(member.remove(member_id)){
+            cout << "Member removed" << endl;
+            return 1;
+        }
+        else
+            cout << "Member not removed" << endl;
+
+        member.display();       //copy function in info creating duplicates
+    }
+
+    else if(choice == 2)
+    {
+        int provider_id;
+        do
+        {
+            cout << "Please type ID# of provider to remove (9 - digits): ";
+            cin >> provider_id;
+            cin.ignore();
+        
+        }while(!valid(provider_id, 9));
+
+        if(provider.remove(provider_id)){
+            cout << "Provider removed" << endl;
+            return 1;
+        }
+        else
+            cout << "Provider not removed" << endl;
+    }
+
+return 0;
 }
