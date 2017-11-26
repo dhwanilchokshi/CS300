@@ -73,6 +73,8 @@ class info
         int check_id(int);
         void show();
         int copy_lll(info &);
+        int check_bst_move(int);
+        int check_mem_equal(struct information&);
 
     protected:
         node * head;

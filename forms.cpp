@@ -86,6 +86,25 @@ void info::show()
         << "\nCity And State of Residence: " << city << ", " << state << ", "
         << zip_code << endl;
 }
+
+int info::check_bst_move(int num_to_check)
+{
+    if(num_to_check < number)
+        return 0;
+    
+    return 1;
+}
+
+int info::check_mem_equal(information& info)
+{
+    if(info.member_number == number)
+    {
+        info.member_name = name;
+        return 1;
+    }
+    
+return 0;
+}
 //data functions
 data::data(): day(0), month(0), year(0), provider_name(" "), service_name(" "), service_month(0), service_day(0), service_year(0),
     mem_name(" "), mem_num(0), serv_code(0), serv_fee(0.0), total_consults(0), total_week_fee(0.0)

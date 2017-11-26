@@ -180,3 +180,26 @@ int manage::remove(t_node *& root,int id_to_remove)
         remove(root->get_left(),id_to_remove);
         return remove(root->get_right(),id_to_remove);
 }
+
+int manage::get_member_name(information &info)
+{
+    if(!root)
+        return 0;
+
+    return get_member_name(root, info);
+}
+int manage::get_member_name(t_node *&root, information &info)
+{
+    if(!root)
+        return 0;
+
+    if(root->check_mem_equal(info))
+        return 1;
+
+    else if(!root->check_bst_move(info.member_number))
+        return get_member_name(root->get_left(), info);
+    else
+        return get_member_name(root->get_right(), info);
+
+}
+

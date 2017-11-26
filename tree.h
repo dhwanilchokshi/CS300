@@ -23,12 +23,14 @@ class manage
         int insert(info&);
         int display();
         int remove(int);
+        int get_member_name(struct information &);
 
     protected:
         t_node * root;
         int insert(t_node *& root, info&);
         int display(t_node * root);
         int remove(t_node *& root,int);
+        int get_member_name(t_node *&, struct information &);
 };
 
 

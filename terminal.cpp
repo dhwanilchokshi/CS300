@@ -70,7 +70,9 @@ int Terminal::get_disk_info(information& info)
    info.member_number = 103678233; info.provider_number = 910344322; info.service_code = 661390; //temp
    info.service_fee = 45.25; //temp
    info.member_name = "John Smith"; //temp
-
+   char file[SIZE];
+   strcpy(file, "member_info.txt");
+   member.read_forms(file);
 /*
         ------------------UNIT TEST FOR ACCEPTABLE LENGTH-------------------
    if(VERIFY_NUMBER_TEST(info.member_number, 9) && VERIFY_NUMBER_TEST(info.provider_number, 9) && VERIFY_NUMBER_TEST(info.service_code, 6))
@@ -117,7 +119,9 @@ int Terminal::get_disk_info(information& info)
    if(!write_to_file(info))
        cout << "Unable to write information to file" << endl;
 
-   //member.get_member_name(info);
+   //gets the member's name
+   member.get_member_name(info);
+   //cout << "member_name: " << info.member_name << endl;
 
 /*
     6) Use Service Code to look up fee and display it (+save it) 
