@@ -1,7 +1,10 @@
+#include "tree.h"
+/*
 #include <iostream>
 #include <cstring>
 #include <ctime>
 #include <fstream>
+*/
 const char menues[][150]= {"0 - QUIT\n1 - provide a service to a member\n2 - Look up a service code\n3 - Request a copy of provider directory\n","0 - QUIT\n1 - View summary report\n2 - Run individual reports\n","0 - QUIT\n1 - Add new members\n2 - Add new providers\n3 - Update\n4 - Delete\n"};
 class Terminal
 {
@@ -18,6 +21,10 @@ class Terminal
         void operators(int choice);
 
         //Provider funtions
+        int get_disk_info(struct information&);
+        int write_to_file(struct information);
+        int write_provider_verification(struct information); 
+        int valid(int, int);
 
         //Manager funtions
 
