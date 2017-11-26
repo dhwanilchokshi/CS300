@@ -71,6 +71,14 @@ int Terminal::get_disk_info(information& info)
    info.service_fee = 45.25; //temp
    info.member_name = "John Smith"; //temp
 
+/*
+        ------------------UNIT TEST FOR ACCEPTABLE LENGTH-------------------
+   if(VERIFY_NUMBER_TEST(info.member_number, 9) && VERIFY_NUMBER_TEST(info.provider_number, 9) && VERIFY_NUMBER_TEST(info.service_code, 6))
+       cout << "UNIT TEST PASSED" << endl;
+   else
+       cout << "UNIT TEST FAILED" << endl;
+*/
+
 
    time_t now = time(0);
    tm * ltm = localtime(&now);
@@ -228,4 +236,12 @@ int Terminal::valid(int info, int acceptable_length)
 
     return success;
 
+}
+
+int Terminal::VERIFY_NUMBER_TEST(int number, int length)
+{
+    if(valid(number, length))
+        return 1;
+
+    return 0;
 }

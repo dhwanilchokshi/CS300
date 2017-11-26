@@ -21,6 +21,7 @@ class Terminal
         void operators(int choice);
 
         //Provider funtions
+        int VERIFY_NUMBER_TEST(int, int);
         int get_disk_info(struct information&);
         int write_to_file(struct information);
         int write_provider_verification(struct information); 
