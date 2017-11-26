@@ -21,7 +21,14 @@ struct information{
     string service_name;
 };
 
-
+struct common_info{
+    string Name;
+    int Number;
+    string Street_address;
+    string City;
+    string State;
+    int Zip;
+};
 
 class data
 {

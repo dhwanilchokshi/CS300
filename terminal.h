@@ -30,8 +30,9 @@ class Terminal
         //Manager funtions
 
         //Operators funtions
-        int add_members();
+        int add_members(struct common_info &);
         int add_providers();
+        int write_to_member_file(struct common_info);
         //other functionality are in others classes
 
 
