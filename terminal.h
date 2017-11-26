@@ -2,7 +2,7 @@
 #include <cstring>
 #include <ctime>
 #include <fstream>
-const char menu[][150]= {"1- provide a service to a member\n2 - Look up a service code\n3 - Request a copy of provider directory\n","1 - View summary report\n2 - Run individual reports\n","1 - Add new members\n2 - Add new providers\n3 - Update\n4 - Delete\n"};
+const char menues[][150]= {"0 - QUIT\n1 - provide a service to a member\n2 - Look up a service code\n3 - Request a copy of provider directory\n","0 - QUIT\n1 - View summary report\n2 - Run individual reports\n","0 - QUIT\n1 - Add new members\n2 - Add new providers\n3 - Update\n4 - Delete\n"};
 class Terminal
 {
     public:
@@ -11,8 +11,20 @@ class Terminal
         //Terminal start screen
         int terminal_access(int user_entry);
 
-        //User specific menus
+        //User menus
         int menu(int user_type);
+        void providers(int choice);
+        void managers(int choice);
+        void operators(int choice);
+
+        //Provider funtions
+
+        //Manager funtions
+
+        //Operators funtions
+        int add_members();
+        int add_providers();
+        //other functionality are in others classes
 
 
     protected:
