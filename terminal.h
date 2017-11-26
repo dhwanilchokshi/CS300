@@ -11,11 +11,20 @@ class Terminal
         //Terminal start screen
         int terminal_access(int user_entry);
 
-        //User specific menus
+        //User menus
         int menu(int user_type);
         void providers(int choice);
         void managers(int choice);
         void operators(int choice);
+
+        //Provider funtions
+
+        //Manager funtions
+
+        //Operators funtions
+        int add_members();
+        int add_providers();
+        //other functionality are in others classes
 
     protected:
         //User number validation functions
