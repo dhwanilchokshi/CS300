@@ -40,8 +40,8 @@ int Terminal::menu(int user_type)
 void Terminal::providers(int choice)
 {
     if(choice == 1);
-    //disk recored 
-    //verfication from
+    //disk record 
+    //verfication fomr
     else if(choice == 2);
     else;
 }
