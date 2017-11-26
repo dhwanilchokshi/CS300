@@ -18,7 +18,7 @@ void info::clear_all(node *&head)
         head= NULL;
     }
 }
-void info::create(String read[],int num, int zip)
+void info::create(string read[],int num, int zip)
 {
     name = read[0];
     number = num;
@@ -87,7 +87,9 @@ void info::show()
         << zip_code << endl;
 }
 //data functions
-data::data(){}
+data::data(): day(0), month(0), year(0), provider_name(" "), service_name(" "), service_month(0), service_day(0), service_year(0),
+    mem_name(" "), mem_num(0), serv_code(0), serv_fee(0.0), total_consults(0), total_week_fee(0.0)
+{}
 data::~data(){}
 //node Functions
 node::node():next(NULL){}

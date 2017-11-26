@@ -38,7 +38,7 @@ int manage::read_forms(char formFile [])
     ifstream in;
 
     in.open(formFile);
-    String * read = NULL;
+    string * read = NULL;
     info source;
     char temp [SIZE];
     int id_num = 0;
@@ -47,7 +47,7 @@ int manage::read_forms(char formFile [])
         return 0;
     else if(in)
     {
-        read = new String [4];
+        read = new string [4];
         while(!in.eof() && in.get(temp,SIZE,':'))
         {
             in.ignore(100,':'); read[0] = temp;

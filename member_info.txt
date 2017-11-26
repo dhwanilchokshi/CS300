@@ -1,0 +1,3 @@
+John Smith:931922445:12345 NW Swan Dr:Portland:Oregon:97229
+David Smith:945332876:98767 SW Downtown Ave:Portland:Oregon:97298
+Veronica John:909223445:44558 SE Estuary Dr:Beaverton:Oregon:97005
