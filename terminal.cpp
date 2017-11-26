@@ -43,7 +43,8 @@ void Terminal::providers(int choice)
 
     if(choice == 1)
     {
-        get_disk_info(info);     //disk record and verification form
+        char file[] = "ChocAn_members.txt";
+        get_disk_info(info, file);     //disk record and verification form
     }
     else if(choice == 2);
     else;
@@ -59,12 +60,12 @@ void Terminal::operators(int choice)
 
     if(choice == 1)
     {
-        char file[] = "member_info.txt";
+        char file[] = "new_members.txt";
         add_members(to_add, file);
     }
     else if(choice == 2)
     {
-        char file[] = "provider_info.txt";
+        char file[] = "new_providers.txt";
         add_providers(to_add, file);
     }
     else if(choice == 4)
@@ -83,13 +84,12 @@ int Terminal::member_number_validation(int user_entry)
 int Terminal::account_number_validation(int user_entry)
 {return 1;}
 
-int Terminal::get_disk_info(information& info)
+int Terminal::get_disk_info(information& info, char *file)
 {
    info.member_number = 103678233; info.provider_number = 910344322; info.service_code = 661390; //temp
    info.service_fee = 45.25; //temp
    info.member_name = "John Smith"; //temp
-   char file[SIZE];
-   strcpy(file, "member_info.txt");
+
    member.read_forms(file);
 /*
         ------------------UNIT TEST FOR ACCEPTABLE LENGTH-------------------
