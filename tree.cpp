@@ -22,12 +22,8 @@ t_node *& t_node::get_right()
 
 
 // manage class 
-manage::manage()
-{
-}
-manage::~manage()
-{
-}
+manage::manage():root(NULL),track(0) { }
+manage::~manage() { }
 manage::manage(const manage & obj)
 {
 
@@ -62,8 +58,40 @@ int manage::read_forms(char formFile [])
             source.create(read,id_num,zip_code);
             insert(source);
             }
+    }
 
+    return 1;
+}
 
+int manage::read_providers(char formFile [])
+{
+    ifstream in;
+
+    in.open(formFile);
+    string * read = NULL;
+    info source;
+    char temp [SIZE];
+    int id_num = 0;
+    int zip_code = 0;
+    if(!in)
+        return 0;
+    else if(in)
+    {
+        read = new string [4];
+        while(!in.eof() && in.get(temp,SIZE,':'))
+        {
+            in.ignore(100,':'); read[0] = temp;
+            in >> id_num; in.ignore(100,':');
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); read[1] = temp;
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); read[2] = temp;
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); read[3] = temp;
+            in >> zip_code; in.ignore(100,'\n');
+            source.create(read,id_num,zip_code);
+            insert(source);
+            }
     }
 
     return 1;
@@ -78,6 +106,7 @@ int manage::insert(t_node *& root, info & source)
     if(!root)
     {
         root = new t_node;
+        track+=1;
         root->copy(source);
         root->get_left() = root->get_right() = NULL;
         return 1;
@@ -129,6 +158,7 @@ int manage::remove(t_node *& root,int id_to_remove)
         {
             delete root;
             root=NULL;
+            track-=1;
             return 1;
         }
         if(!root->get_left())//if it has one child
@@ -137,6 +167,7 @@ int manage::remove(t_node *& root,int id_to_remove)
             root=root->get_right();
             delete current;
             current =NULL;
+            track-=1;
             return 1;
         }
         if(!root->get_right())//if it has one child
@@ -145,6 +176,7 @@ int manage::remove(t_node *& root,int id_to_remove)
             root= root->get_left();
             delete current;
             current = NULL;
+            track-=1;
             return 1;
         }
         else//to find the ios
@@ -159,11 +191,13 @@ int manage::remove(t_node *& root,int id_to_remove)
                 {
                         root->get_right() = current->get_right();
                         delete current;
+                        track-=1;
                         return 1;
                 }
                 else
                 {
                         delete current;
+                        track -=1;
                         return 1;
                 }
             }
@@ -172,6 +206,7 @@ int manage::remove(t_node *& root,int id_to_remove)
                 current->get_info(get);
                 root->copy(get);
                 delete current;
+                track-=1;
                 return 1;
             }
         }
@@ -201,3 +236,55 @@ int manage::get_member_name(t_node *&root, information &info)
         return get_member_name(root->get_right(), info);
 
 }
+<<<<<<< HEAD
+=======
+int manage::create_forms()
+{
+    if(!root)
+    {
+        cout << "ERROR !! NO DATA !!" << endl;
+        return 0;
+    }
+    else
+        return create_forms(root);
+}
+
+//this function will be responsible of creating member and providers forms based 
+//
+int manage::create_forms(t_node * root)
+{
+    if(!root)
+        return 1;
+    root->generate();
+    create_forms(root->get_left());
+    return create_forms(root->get_right());
+}
+
+//to add the extra information for the providers and the members
+int manage::adding_extra(information & to_add,int to_find)
+{
+    if(!root)
+    {
+        cout << "ERROR !! NO DATA AVILABLE !!" << endl << endl;
+        return 0;
+    }
+
+    t_node * found = find(root,to_find);
+
+    if(found)
+        found->insert(to_add);
+    else
+        cout << "ERROR !! ID NUMBER WAS NOT FOUND !!" << endl << endl;
+    return 1;
+}
+// a function to traverse and find the ID node
+t_node *& manage:: find(t_node * root, int to_find)
+{
+    if(!root)
+        return this->root;
+    if(root->check_id(to_find))
+        return this->root;
+    find(root->get_left(),to_find);
+    return find(root->get_right(),to_find);
+}
+>>>>>>> be3b80ee59d21b84dedbc1780ad16cc6834747fb

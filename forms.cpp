@@ -1,5 +1,5 @@
 #include "forms.h"
-
+information::information():member_number(0),provider_number(0){}
 //info functions 
 info::info():head(NULL){}
 info::~info()
@@ -105,11 +105,86 @@ int info::check_mem_equal(information& info)
     
 return 0;
 }
+int info::generate()
+{
+    ofstream out;
+    char filename [SIZE]; 
+    string temp = name;
+    time_t now = time(0);
+    tm * localtm = localtime(&now);
+    temp += "-";
+    temp += asctime(localtm);
+    temp.copy(filename,50,0);
+
+    out.open(filename);
+    
+
+        out << name << ':' << number << ':' << address << ':' << city 
+            << ':' << state << ':' << zip_code;
+        if(head)
+        {
+            node * current = head;
+            while(current)
+            {
+                current->write_extra(filename);
+                current = current->get_next();
+            }
+        }
+        out.close();
+        return 0;
+
+}
+void info::insert(information & to_add)
+{
+    node * hold = new node;
+    if(to_add.member_number != 0)
+        hold->createProvider(to_add);
+    else
+        hold->createMember(to_add);
+    hold->get_next() = head;
+    head = hold;
+}
 //data functions
-data::data(): day(0), month(0), year(0), provider_name(" "), service_name(" "), service_month(0), service_day(0), service_year(0),
-    mem_name(" "), mem_num(0), serv_code(0), serv_fee(0.0), total_consults(0), total_week_fee(0.0)
-{}
+data::data() {}
 data::~data(){}
+void data::createMember(information & to_copy)
+{
+    extra.service_month = to_copy.service_month;
+    extra.service_day = to_copy.service_day;
+    extra.service_year = to_copy.service_year;
+    extra.provider_name = to_copy.provider_name;
+    extra.service_name = to_copy.service_name;
+}
+void data::createProvider(information & copy_provider)
+{
+    extra.service_month = copy_provider.service_month;
+    extra.service_day = copy_provider.service_day;
+    extra.service_year = copy_provider.service_year;
+    extra.member_name = copy_provider.member_name;
+    extra.member_number = copy_provider.member_number;
+    extra.service_code = copy_provider.service_code;
+    extra.service_fee = copy_provider.service_fee;
+    extra.total_consults = copy_provider.total_consults;
+    extra.weekly_fee = copy_provider.weekly_fee;
+} 
+
+void data::write_extra(char * filename)
+{
+    ofstream out;
+    out.open(filename);
+
+    if(extra.member_number != 0)
+    {
+        out << extra.service_month << '/' << extra.service_day <<  '/' <<  extra.service_year
+        << ':' << extra.member_name << ':' <<  extra.member_number << ':' <<  extra.service_code
+        << ':' <<  extra.service_fee << ':' <<  extra.total_consults << ':' <<  extra.weekly_fee;
+    }
+    else
+    {   out << extra.service_month << '/' << extra.service_day <<  '/' <<  extra.service_year
+        << ':' << extra.provider_name << ':' << extra.service_name;
+    }
+    out.close();
+}
 //node Functions
 node::node():next(NULL){}
 node::~node(){}
