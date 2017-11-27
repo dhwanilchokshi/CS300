@@ -2,8 +2,9 @@
 
 
 int main()
-{
+{  
     Terminal terminal;
+
     information info; 
     char file[SIZE];
     strcpy(file, "member_info.txt");

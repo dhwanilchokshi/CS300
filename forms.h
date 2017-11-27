@@ -9,6 +9,7 @@ using namespace std;
 const int SIZE = 100;
 
 struct information{
+    information();
     int service_month, service_day, service_year;
     int current_month, current_day, current_year, current_hour, current_min, current_sec;
     int member_number, provider_number, service_code;
@@ -28,16 +29,20 @@ class data
     public:
         data();
         ~data();
-        void create(string * read, int, int, int);
+        void createMember(information & to_copy);
+        void createProvider(information & copy_provider);
         void copy();
+        void write_extra(char * filename);
     protected:
+        information extra;
         //member information:
+        //
+        /*
         int month;
         int day;
         int year;
         string provider_name;
         string service_name;
-
         //provider information
         int service_month;
         int service_day;
@@ -48,6 +53,7 @@ class data
         float serv_fee;
         int total_consults;
         double total_week_fee;
+        */
 };
 
 class node:public data
@@ -75,6 +81,8 @@ class info
         int copy_lll(info &);
         int check_bst_move(int);
         int check_mem_equal(struct information&);
+        int generate();
+        void insert(information &);
 
     protected:
         node * head;
