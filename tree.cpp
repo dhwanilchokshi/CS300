@@ -236,8 +236,7 @@ int manage::get_member_name(t_node *&root, information &info)
         return get_member_name(root->get_right(), info);
 
 }
-<<<<<<< HEAD
-=======
+
 int manage::create_forms()
 {
     if(!root)
@@ -278,7 +277,7 @@ int manage::adding_extra(information & to_add,int to_find)
     return 1;
 }
 // a function to traverse and find the ID node
-t_node *& manage:: find(t_node * root, int to_find)
+t_node *& manage::find(t_node * root, int to_find)
 {
     if(!root)
         return this->root;
@@ -287,4 +286,3 @@ t_node *& manage:: find(t_node * root, int to_find)
     find(root->get_left(),to_find);
     return find(root->get_right(),to_find);
 }
->>>>>>> be3b80ee59d21b84dedbc1780ad16cc6834747fb

@@ -1,4 +1,5 @@
 #include "forms.h"
+
 class t_node:public info
 {
 
@@ -13,6 +14,7 @@ class t_node:public info
         t_node * left;
         t_node * right;
 };
+
 class manage
 {
     public:
