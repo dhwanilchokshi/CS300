@@ -2,8 +2,9 @@
 
 
 int main()
-{
+{  
     Terminal terminal;
+
     information info; 
 
     int count = 0;

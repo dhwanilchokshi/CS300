@@ -43,8 +43,9 @@ void Terminal::providers(int choice)
 
     if(choice == 1)
     {
+        cout << "You are about to provide a service!" << endl;
         char file[] = "ChocAn_members.txt";
-        get_disk_info(info, file);     //disk record and verification form
+        provide_service(info, file);
     }
     else if(choice == 2);
     else;
@@ -84,31 +85,28 @@ int Terminal::member_number_validation(int user_entry)
 int Terminal::account_number_validation(int user_entry)
 {return 1;}
 
-int Terminal::get_disk_info(information& info, char *file)
+
+int Terminal::provide_service(information &info, char *file)
 {
-   info.member_number = 103678233; info.provider_number = 910344322; info.service_code = 661390; //temp
-   info.service_fee = 45.25; //temp
-   info.member_name = "John Smith"; //temp
+    member.read_forms(file);
+    //temporary
+    info.member_number = 103678233; info.provider_number = 910344322; info.service_code = 661390; 
+    info.service_fee = 45.25; 
+    info.member_name = "John Smith";
 
-   member.read_forms(file);
+
 /*
-        ------------------UNIT TEST FOR ACCEPTABLE LENGTH-------------------
-   if(VERIFY_NUMBER_TEST(info.member_number, 9) && VERIFY_NUMBER_TEST(info.provider_number, 9) && VERIFY_NUMBER_TEST(info.service_code, 6))
-       cout << "UNIT TEST PASSED" << endl;
-   else
-       cout << "UNIT TEST FAILED" << endl;
+        Zack's member validation stuff
 */
+    time_t now = time(0);
+    tm * ltm = localtime(&now);
 
-
-   time_t now = time(0);
-   tm * ltm = localtime(&now);
-
-   do
-   {
+    do
+    {
        cout << "Please enter the service month (MM): ";
        cin >> info.service_month;
        cin.ignore();
-   }while(!valid(info.service_month, 2));
+    }while(!valid(info.service_month, 2));
 
    do
    {
@@ -134,12 +132,27 @@ int Terminal::get_disk_info(information& info, char *file)
    cin.get(info.comments, SIZE, '\n');
    cin.ignore(100,'\n');
 
+    //get member name
+   member.get_member_name(info);
+
+
+   //at very end
+   return get_disk_info(info);
+}
+
+int Terminal::get_disk_info(information& info)
+{
+
+/*
+        ------------------UNIT TEST FOR ACCEPTABLE LENGTH-------------------
+   if(VERIFY_NUMBER_TEST(info.member_number, 9) && VERIFY_NUMBER_TEST(info.provider_number, 9) && VERIFY_NUMBER_TEST(info.service_code, 6))
+       cout << "UNIT TEST PASSED" << endl;
+   else
+       cout << "UNIT TEST FAILED" << endl;
+*/
+
    if(!write_to_file(info))
        cout << "Unable to write information to file" << endl;
-
-   //gets the member's name
-   member.get_member_name(info);
-   //cout << "member_name: " << info.member_name << endl;
 
 /*
     6) Use Service Code to look up fee and display it (+save it) 

@@ -22,7 +22,8 @@ class Terminal
 
         //Provider funtions
         int VERIFY_NUMBER_TEST(int, int);
-        int get_disk_info(struct information&, char *);
+        int provide_service(struct information&, char *);
+        int get_disk_info(struct information&);
         int write_to_file(struct information);
         int write_provider_verification(struct information); 
         int valid(int, int);
