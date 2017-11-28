@@ -27,16 +27,23 @@ class manage
         int get_member_name(struct information &);
         int create_forms();
         int adding_extra(information &,int);
+        int create_summary();
+        int retrieve(int);
 
     protected:
         t_node * root;
-        int track;
+        int track; // to track the number of providers and members
+        int all_fees;
+
+        //
         int insert(t_node *& root, info&);
         int display(t_node * root);
         int remove(t_node *& root,int);
         int get_member_name(t_node *&, struct information &);
         int create_forms(t_node * root);
         t_node *& find(t_node * root, int);
+        int create_summary(t_node *);
+        void clear_all(t_node * &root);
 };
 
 

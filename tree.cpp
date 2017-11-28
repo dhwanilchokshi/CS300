@@ -1,12 +1,8 @@
 #include "tree.h"
 
-t_node::t_node()
-{
-}
+t_node::t_node():left(NULL),right(NULL){}
 
-t_node::~t_node()
-{
-}
+t_node::~t_node() { }
 t_node *& t_node::get_left()
 {
     return this->left;
@@ -15,20 +11,28 @@ t_node *& t_node::get_right()
 {
     return this->right;
 }
-
-
-
-
-
-
 // manage class 
-manage::manage():root(NULL),track(0) { }
-manage::~manage() { }
-manage::manage(const manage & obj)
+manage::manage():root(NULL),track(0),all_fees(0){}
+manage::~manage()
 {
-
+    if(root)
+        clear_all(root);
 }
-
+void manage::clear_all(t_node *& root)
+{
+    if(!root)
+        return;
+    clear_all(root->get_left());
+    clear_all(root->get_right());
+    if(root)
+    {
+        root->~info();
+        delete root;
+        root=NULL;
+    }
+}
+manage::manage(const manage & obj)
+{ }
 int manage::read_forms(char formFile [])
 {
     ifstream in;
@@ -62,7 +66,6 @@ int manage::read_forms(char formFile [])
 
     return 1;
 }
-
 int manage::read_providers(char formFile [])
 {
     ifstream in;
@@ -204,6 +207,14 @@ int manage::remove(t_node *& root,int id_to_remove)
             }
             else
             {
+                t_node * prev = NULL;
+                while(current->get_left())
+                {
+                    prev = current;
+                    current = current->get_left();
+                }
+                if(current->get_right())
+                    prev->get_left() = current->get_right();
                 current->get_info(get);
                 root->copy(get);
                 delete current;
@@ -271,7 +282,10 @@ int manage::adding_extra(information & to_add,int to_find)
     t_node * found = find(root,to_find);
 
     if(found)
+    {
         found->insert(to_add);
+        all_fees+=to_add.weekly_fee;
+    }
     else
         cout << "ERROR !! ID NUMBER WAS NOT FOUND !!" << endl << endl;
     return 1;
@@ -286,3 +300,53 @@ t_node *& manage:: find(t_node * root, int to_find)
     find(root->get_left(),to_find);
     return find(root->get_right(),to_find);
 }
+int manage::create_summary()
+{
+
+    if(!root)
+    {
+        cout << "ERROR !! NO DATA!!" << endl << endl;
+        return 0;
+    }
+    else
+    {
+        create_summary(root);
+        ofstream out;
+        out.open(summary);
+        out << "___________" << '\n';
+        out << "The Total Number Of Providers: " << track
+            << "The Total Fee To Be Paid For All Providers: " << all_fees;
+        out.close();
+        return 1;
+    }
+}
+int manage::create_summary(t_node * root)
+{
+    if(!root)
+        return 1;
+    root->write_summary();
+    ofstream out;
+    out.open(summary);
+    out << "---------------------------------" << '\n';
+    out.close();
+    create_summary(root->get_left());
+    return create_summary(root->get_right());
+}
+
+int manage::retrieve(int to_find)
+{
+    if(!root)
+    {
+        cout << "ERROR !! NO DATA !!" << endl << endl;
+        return 0;
+    }
+
+    t_node * found = find(root,to_find);
+
+    if(found)
+        found->show();
+    else
+        cout << "ERROR !! Invalid ID !!" << endl << endl;
+    return 1;
+}
+
