@@ -11,30 +11,38 @@ int Terminal::read()
 {
     return 1;
 }
+int Terminal::menu_selector(int menu_choice, bool sub_menu)
+{
+    int choice;
+    cout<<"What would you like to do? - Please choose a number corresponding to the menu item:";
+    if(sub_menu)
+        cout<<"\n0 - Previous mene"<<endl;
+    else 
+        cout<<"\n0 - LOGOUT"<<endl;
+    cout<<menues[menu_choice];
+    cout<<"CHOICE: ";
+    cin>>choice;
+    cin.ignore(100,'\n');
+    return choice;
+}
 int Terminal::menu(int user_type)
 {
     int choice = 0;
-    bool INmenu = false;
+    bool INmenu = true;
     cout<<"Welcome -name-\n"
         <<"//////////////////////////////////////////////"<<endl;
     do 
     {
-        INmenu = false;
-        cout<<"What would you like to do? - Please choose a number corresponding to the menu item:"
-            <<"\n0 - LOGOUT"<<endl;
-        cout<<menues[user_type];
-        cout<<"CHOICE: ";
-        cin>>choice;
-        cin.ignore(100,'\n');
-        if(!choice);
+        choice = menu_selector(user_type, 0);
+        if(!choice)
+            INmenu = false;
         else if((user_type == 0) && (choice < 4 && choice > 0))
             providers(choice);
         else if((user_type == 1) && (choice < 3 && choice > 0))
             managers(choice);
         else if((user_type == 2) && (choice < 5 && choice > 0))
             operators(choice);
-        else
-            INmenu = true;
+
     }while(INmenu);
     cout<<"\n~~~LOGOUT~~~\n";
     return 1;
@@ -49,8 +57,41 @@ void Terminal::providers(int choice)
         char file[] = "ChocAn_members.txt";
         provide_service(info, file);
     }
-    else if(choice == 2);
-    else;
+    else if(choice == 2)
+    {
+        bool INmenu = true;
+        string to_find_str;
+        int to_find_int;
+        do
+        {
+            choice = menu_selector(3, 1);
+            if(!choice)
+                INmenu = false;
+            if(choice < 4 && choice > 0)
+            {
+                if(choice == 1)
+                {
+                    cout<<"Please enter the name of the service:"<<endl;
+                    cin>>to_find_str;
+                    cin.ignore(100,'\n');
+                    directory.display_service(to_find_str,0);
+                }
+                else if(choice == 2)
+                {
+                    cout<<"Please enter the code of the service:"<<endl;
+                    cin>>to_find_int;
+                    cin.ignore(100,'\n');
+                    directory.display_service(to_find_str,to_find_int);
+                }
+                else
+                    directory.display_services();
+            }
+            else 
+                cout<<"Invalid Choice"<<endl;
+        }while(INmenu);
+    }
+    else
+        directory_file_request();
 }
 void Terminal::managers(int choice)
 {
@@ -245,10 +286,24 @@ int Terminal::VERIFY_NUMBER_TEST(int number, int length)
 {
     if(valid(number, length))
         return 1;
-
     return 0;
 }
-
+int Terminal::directory_file_request()
+{
+    ofstream write;
+    write.open("copy_of_provider_directory.txt");
+    
+    if(write)
+        directory.copy(write);
+    else
+    {
+        cout<<"ABORT. Something went wrong.\n";
+        return 0;
+    }
+    return 1;
+    write.close();
+    write.clear();
+}
 
 int Terminal::add_members(common_info &to_add, char *file)
 {

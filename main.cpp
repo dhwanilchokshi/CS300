@@ -1,5 +1,5 @@
 #include "terminal.h"
-
+#include "Provider_Directory.h"
 
 int main()
 {  
@@ -12,7 +12,7 @@ int main()
     while(count != 2)
     {
         if(count == 0)
-            terminal.menu(2);
+            terminal.menu(0);
         ++count;
     }
 /*
@@ -184,6 +184,8 @@ int valid(int info, int acceptable_length)
         if(counter == 4)
             success = true;
     }
+=======
+>>>>>>> 78a9f54e3dcb786e3a27741a139cbae2e9b10171
 
     else if(acceptable_length == 9)
     {
@@ -207,6 +209,7 @@ int valid(int info, int acceptable_length)
             success = true;
     }
 
+<<<<<<< HEAD
     return success;
 }
 */
