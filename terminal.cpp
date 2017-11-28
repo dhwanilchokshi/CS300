@@ -6,6 +6,7 @@ using namespace std;
 Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NULL), operator_numbers(NULL), member_status(NULL)
 {
     read();
+    srand(time(0));
 }
 int Terminal::read()
 {
@@ -41,6 +42,8 @@ int Terminal::menu(int user_type)
 }
 void Terminal::providers(int choice)
 {
+    char file[] = "ChocAn_members.txt";
+    read_member_validation(file);
     information info;
 
     if(choice == 1)
@@ -57,6 +60,7 @@ void Terminal::managers(int choice)
     if(choice == 1);
     else;
 }
+
 void Terminal::operators(int choice)
 {
     common_info to_add;
@@ -82,6 +86,124 @@ void Terminal::operators(int choice)
     }
     else;
 }
+
+int Terminal::read_member_validation(char *file)
+{
+    int count_lines = 0;
+    int ch;
+    string line;
+    ifstream in;
+    in.open(file);
+
+    if(!in)
+    {
+        cout << "Sorry no such file to open!" << endl;
+        return 0;
+    }
+
+    while(!in.eof() && getline(in, line))
+    {
+            ++count_lines;
+    }
+    in.close();              //first read to count lines
+
+    int index = 0;
+    int random;
+    int number;
+    int numbers[count_lines];
+    float suspend_fee;
+    float suspended[count_lines];
+    int suspend_index = 0;
+    string status[count_lines];
+    char temp[SIZE];
+
+    in.open(file);
+    while(!in.eof() && in.get(temp, SIZE, ':'))
+    {
+        in.ignore(100,':');
+
+        in >> number; numbers[index] = number;
+        in.ignore(100,':');
+
+        in.get(temp,SIZE,':');
+        in.ignore(100,':'); 
+
+        in.get(temp,SIZE,':');
+        in.ignore(100,':');
+
+        in.get(temp,SIZE,':');
+        in.ignore(100,':'); 
+
+        in >> random; in.ignore(100,':');
+
+        in.get(temp, SIZE, ':'); status[index] = temp;
+        in.ignore(100, ':');
+
+        if(status[index].compare("suspended") == 0)
+        {
+            in >> suspend_fee; suspended[index] = suspend_fee;
+            in.ignore(100, '\n');
+            ++suspend_index;
+        }
+        else
+        {
+            suspended[index] = 0.0;
+            in.ignore(100, '\n');
+        }
+
+        ++index;
+    }
+    int x = 0;
+
+    /*
+    for(int i = 0; i < count_lines; ++i)
+    {
+        cout << "number: " << numbers[i] << endl;
+        cout << "status: " << status[i] << endl;
+        cout << "fee: " << suspended[i] << endl; 
+
+    }
+    */
+
+    //write to the file now
+    return write_member_validation(count_lines, numbers, status, suspended);
+
+
+}
+
+int Terminal::write_member_validation(int count_lines, int *numbers, string status[], float *suspended)
+{
+    int count = 0;
+    int index = 0;
+    //int suspend_index = 0;
+    ofstream output;
+    output.open("member_validation.txt", ios::app);
+
+    if(!output)
+    {
+        cout << "Sorry file could not be found!" << endl;
+        return 0;
+    }
+
+    while(count < count_lines)
+    {
+        output << numbers[index] << ":";
+        if(status[index].compare("suspended") == 0)
+        {
+            output << status[index] << ":" << suspended[index] << endl;
+        }
+        else
+            output << status[index] << endl;
+
+        ++index;
+        ++count;
+    }
+
+    return 1;
+
+    
+}
+
 int Terminal::member_number_validation(int user_entry)
 {return 1;}
 int Terminal::account_number_validation(int user_entry)
@@ -91,6 +213,7 @@ int Terminal::account_number_validation(int user_entry)
 int Terminal::provide_service(information &info, char *file)
 {
     member.read_forms(file);
+    //member.display();
     //temporary
     info.member_number = 103678233; info.provider_number = 910344322; info.service_code = 661390; 
     info.service_fee = 45.25; 
@@ -252,15 +375,18 @@ int Terminal::VERIFY_NUMBER_TEST(int number, int length)
 
 int Terminal::add_members(common_info &to_add, char *file)
 {
+    int member_number;
+
     cout << "Full Name: ";
     getline(cin, to_add.Name);
 
-    do
-    {
-        cout << "Number (9 digits): ";
-        cin >> to_add.Number;
-        cin.ignore();
-    }while(!valid(to_add.Number, 9));
+    //provider
+    //int number = (rand() % 9999999) + 910000000;
+
+    //generate member number
+    member_number = (rand() % 9999999) + 900000000;
+
+    to_add.Number = member_number;
 
     cout << "Street Address: ";
     getline(cin, to_add.Street_address);
@@ -298,15 +424,15 @@ int Terminal::write_to_file(common_info to_add, char *file)
 
 int Terminal::add_providers(common_info &to_add, char *file)
 {
+    int provider_number;
+
     cout << "Full Name: ";
     getline(cin, to_add.Name);
 
-    do
-    {
-        cout << "Number (9 digits): ";
-        cin >> to_add.Number;
-        cin.ignore();
-    }while(!valid(to_add.Number, 9));
+    
+    //generate provider number
+    provider_number = (rand() % 9999999) + 910000000;
+    to_add.Number = provider_number;
 
     cout << "Street Address: ";
     getline(cin, to_add.Street_address);

@@ -4,6 +4,7 @@
 #include <string>
 #include <cstring>
 #include <fstream>
+#include <cstdlib>
 using namespace std;
 
 const int SIZE = 100;
@@ -15,7 +16,7 @@ struct information{
     int member_number, provider_number, service_code;
     int total_consults;
     float service_fee;
-    double weekly_fee;
+    float weekly_fee;
     char comments[SIZE];
     string member_name;
     string provider_name;

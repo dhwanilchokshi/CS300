@@ -105,6 +105,7 @@ int info::check_mem_equal(information& info)
     
 return 0;
 }
+
 int info::generate()
 {
     ofstream out;
