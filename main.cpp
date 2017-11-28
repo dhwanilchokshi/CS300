@@ -12,8 +12,7 @@ int main()
     while(count != 2)
     {
         if(count == 0)
-            terminal.menu(0);
-        terminal.menu(2);
+            terminal.menu(2);
         ++count;
     }
 /*

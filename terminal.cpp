@@ -3,7 +3,7 @@ using namespace std;
 
 //Terminal class
 
-Terminal::Terminal(): member_numbers(NULL), provider_numbers(NULL), manager_numbers(NULL), operator_numbers(NULL), member_status(NULL)
+Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NULL), operator_numbers(NULL), member_status(NULL)
 {
     read();
 }
@@ -20,8 +20,10 @@ int Terminal::menu(int user_type)
     do 
     {
         INmenu = false;
-        cout<<"What would you like to do? - Please choose a number corresponding to the menu item:"<<endl;
+        cout<<"What would you like to do? - Please choose a number corresponding to the menu item:"
+            <<"\n0 - LOGOUT"<<endl;
         cout<<menues[user_type];
+        cout<<"CHOICE: ";
         cin>>choice;
         cin.ignore(100,'\n');
         if(!choice);
@@ -106,21 +108,22 @@ int Terminal::provide_service(information &info, char *file)
        cout << "Please enter the service month (MM): ";
        cin >> info.service_month;
        cin.ignore();
-    }while(!valid(info.service_month, 2));
+       cout << "month: " << 1 + ltm->tm_mon;
+    }while(valid(info.service_month, 2) && (info.service_month != (1+ ltm->tm_mon)));
 
    do
    {
        cout << "Please enter the service day (DD): ";
        cin >> info.service_day;
        cin.ignore();
-   }while(!valid(info.service_day, 2));
+   }while(valid(info.service_day, 2) && (info.service_day != ltm->tm_mday));
 
    do
    {
        cout << "Please enter the service year (YYYY): ";
        cin >> info.service_year;
        cin.ignore();
-   }while(!valid(info.service_year, 4));
+   }while(valid(info.service_year, 4) && (info.service_year != (1900 + ltm->tm_year)));
 
    cout << "\nYour input has been saved!" << endl;
 
@@ -224,64 +227,18 @@ int Terminal::valid(int info, int acceptable_length)
     int counter = 0;
     bool success = false;
 
-    if(acceptable_length == 2)
-    {
-        while(info > 0)
-        {
-            info = info/10;
-            ++counter;
-        }
+    if(info >= 1 && info <=9)
+        success = true;
 
-        if(counter == 2)
-            success = true;
-    }
-    
-    else if(acceptable_length == 4)
+    while(info > 0)
     {
-        while(info > 0)
-        {
-            info = info/10;
-            ++counter;
-        }
-        if(counter == 4)
-            success = true;
+        info = info/10;
+        ++counter;
     }
 
-    else if(acceptable_length == 9)
-    {
-        while(info > 0)
-        {
-            info = info/10;
-            ++counter;
-        }
-        if(counter == 9)
-            success = true;
-    }
-
-    else if(acceptable_length == 5)
-    {
-        while(info > 0)
-        {
-            info = info/10;
-            ++counter;
-        }
-        if(counter == 5)
-            success = true;
-    }
-    
-    else if(acceptable_length == 6)
-    {
-        while(info > 0)
-        {
-            info = info/10;
-            ++counter;
-        }
-        if(counter == 6)
-            success = true;
-    }
-
+    if(counter == acceptable_length)
+        success = true;
     return success;
-
 }
 
 int Terminal::VERIFY_NUMBER_TEST(int number, int length)

@@ -1,0 +1,12 @@
+Logged Date and Time: 11-27-2017 15:13:55
+Entered date: 1-1-1
+Member Name: Zack Salah       Member Number: 103678233
+Service Code: 661390
+Service Fee: 45.25
+-------------------------------------------------------------
+Logged Date and Time: 11-27-2017 15:38:6
+Entered date: 11-11-1111
+Member Name: Zack Salah       Member Number: 103678233
+Service Code: 661390
+Service Fee: 45.25
+-------------------------------------------------------------

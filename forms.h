@@ -101,6 +101,8 @@ class info
         string city;
         string state;
         int zip_code;
+        string status;
+        int fee;
 
 };
 

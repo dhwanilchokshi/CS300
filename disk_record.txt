@@ -1,0 +1,14 @@
+Logged Date and Time: 11-27-2017 15:13:55
+Entered date: 1-1-1
+Provider Number: 910344322
+Member Number: 103678233
+Service Code: 661390
+Comments: qqq
+-------------------------------------------------------------
+Logged Date and Time: 11-27-2017 15:38:6
+Entered date: 11-11-1111
+Provider Number: 910344322
+Member Number: 103678233
+Service Code: 661390
+Comments: 1
+-------------------------------------------------------------
