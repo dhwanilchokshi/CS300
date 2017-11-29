@@ -19,8 +19,35 @@ int Terminal::read()
     return 1;
 }
 int Terminal::terminal_access()
-{
-
+{ 
+    int input;
+    cout<<"\n---------------ChocAn Data Center-----------------\n";
+    do
+    {
+        cout<<"\nPlease enter your account number to login\n"
+            <<"Account number: ";
+        cin>>input;
+        cin.ignore(100, '\n');
+        input = account_number_validation(input);
+        if(input == 2)
+            cout<<"\nInvalid account number\n";
+        else if(input == 1)
+            cout<<"\nAccount does not exsist\n";
+        else if(input)
+        {
+            if(input >= 910000000 && input <= 919999999)
+            {
+                provider_numbers = input;
+                menu(0);
+                provider_numbers = 0;
+            }
+            else if(input >= 920000000 && input <= 929999999)
+                menu(1);
+            else if(input >= 930000000 && input <= 939999999)
+                menu(2);
+        }
+    }while(1);
+    
     return 1; 
 }
 int Terminal::menu_selector(int menu_choice, bool sub_menu)
@@ -291,7 +318,10 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
 int Terminal::member_number_validation(int user_entry)
 {
     ifstream to_find;
-    to_find.open("member_validation.txt");
+    if(user_entry >= 900000000 && user_entry <= 909999999)
+        to_find.open("member_validation.txt");
+    else
+        return 2;
     int to_comp;
     char status[30];
     float fees;
@@ -308,12 +338,13 @@ int Terminal::member_number_validation(int user_entry)
             to_find>>fees;
             to_find.ignore(100,'\n');
         }
-        to_find.ignore(100,'\n');
+        else
+            to_find.ignore(100,'\n');
         if(user_entry == to_comp)
         {
             if(!strcmp(status,"suspended"))
             {
-                cout<<"Memeber Number: "<<to_comp
+                cout<<"\nMember Number: "<<to_comp
                     <<"\nStatus: "<<status
                     <<"\nUnpaid Fees: $"<<fees<<endl;
                 to_comp = 0;
@@ -337,7 +368,8 @@ int Terminal::account_number_validation(int user_entry)
         to_find.open("operator_validation.txt");
     else if(user_entry >= 930000000 && user_entry <= 939999999)
         to_find.open("manager_validation.txt");
-    
+    else
+        return 2;
     int to_comp;
     char status[30];
     bool found = true;
@@ -345,14 +377,14 @@ int Terminal::account_number_validation(int user_entry)
     {
         to_find>>to_comp;
         to_find.ignore(100,':');
-        to_find.get(status,30,':');
+        to_find.get(status,30,'\n');
         to_find.ignore(100,'\n');
         if(user_entry == to_comp)
         {
             if(!strcmp(status,"suspended"))
             {
                 cout<<"Memeber Number: "<<to_comp
-                    <<"\nStatus: "<<status<<endl;
+                    <<"\nAccount Status: "<<status<<endl;
                 to_comp = 0;
             }
             found = false;
@@ -366,12 +398,29 @@ int Terminal::account_number_validation(int user_entry)
 }
 int Terminal::provide_service(information &info, char *file)
 {
-    //check first member validation:
+    int input;
+    do{
+        cout<<"\nEnter a member number to view status\n"
+            <<"Member Number :";
+        cin>>input;
+        cin.ignore(100,'\n');
+        member_numbers = member_number_validation(input);
+        if(member_numbers == 1)
+            cout<<"\nMember Number Not found\n";
+        if(member_numbers == 2)
+            cout<<"\nInvalid Member Number\n";
+    }while(member_numbers ^ member_numbers > 2);
+    if(!member_numbers)
+        return 0;
+    else
+        cout<<"\nMemebr Status Is Valid.\n\nProcided with prodivering a service\n";
 
-        
-    //check second member validation:
-
-
+    do{
+        cout<<"\nEnter a member number to report a service\n"
+            <<"Member Number :";
+        cin>>input;
+        cin.ignore(100,'\n');
+    }while(input != member_numbers);
     //temporary
     info.member_number = 903678233; info.provider_number = 910344322; info.service_code = 661390; 
     info.service_fee = 45.25; 

@@ -12,8 +12,7 @@ int main()
 
     int count = 0;
 
-    terminal.menu(0);
-    terminal.menu(2);
+    terminal.terminal_access();
 /*
     1) after service has been provided, provider checks member validity again
     2) provider is asked to write the date (MM-DD-YYYY)
