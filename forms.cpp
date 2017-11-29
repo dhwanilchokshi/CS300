@@ -45,12 +45,14 @@ void info::get_info(info & to_get)
     to_get.city = city;
     to_get.state = state;
     to_get.zip_code = zip_code;
+    /*
     if(head)
         copy_lll(to_get);
+        */
 }
 int info::copy_lll(info & to_get)
 {
-    if(!head)
+    if(!to_get.head)
         return 0;
     else
         return copy_lll(to_get.head,head);
@@ -181,6 +183,14 @@ void info::write_summary()
 //data functions
 data::data() {}
 data::~data(){}
+data::data(data & source)
+{
+
+    if(source.extra.member_number !=0)
+        createProvider(source.extra);
+    else
+        createMember(source.extra);
+}
 void data::createMember(information & to_copy)
 {
     extra.service_month = to_copy.service_month;
