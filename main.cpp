@@ -4,6 +4,9 @@
 int main()
 {  
     Terminal terminal;
+    manage obj;
+    obj.read_forms("member_info.txt");
+    obj.display();
 
     information info; 
     char file[SIZE];

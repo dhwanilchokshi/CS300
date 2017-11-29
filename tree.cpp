@@ -26,7 +26,7 @@ void manage::clear_all(t_node *& root)
     clear_all(root->get_right());
     if(root)
     {
-        root->~info();
+        //root->~info();
         delete root;
         root=NULL;
     }
