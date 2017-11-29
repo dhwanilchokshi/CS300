@@ -27,6 +27,7 @@ class manage
         int display();
         int remove(int);
         int get_member_name(struct information &);
+        int get_provider_name(struct information &);
         int create_forms();
         int adding_extra(information &,int);
 
@@ -37,6 +38,7 @@ class manage
         int display(t_node * root);
         int remove(t_node *& root,int);
         int get_member_name(t_node *&, struct information &);
+        int get_provider_name(t_node *&, information &info);
         int create_forms(t_node * root);
         t_node *& find(t_node * root, int);
 };

@@ -237,6 +237,28 @@ int manage::get_member_name(t_node *&root, information &info)
 
 }
 
+int manage::get_provider_name(information &info)
+{
+    if(!root)
+        return 0;
+
+    return get_provider_name(root, info);
+}
+
+int manage::get_provider_name(t_node *&root, information &info)
+{
+    if(!root)
+        return 0;
+
+    if(root->check_pro_equal(info))
+        return 1;
+
+    else if(!root->check_bst_move(info.provider_number))
+        return get_provider_name(root->get_left(), info);
+    else
+        return get_provider_name(root->get_right(), info);
+}
+
 int manage::create_forms()
 {
     if(!root)

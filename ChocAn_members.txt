@@ -1,5 +1,5 @@
-John Smith:931922445:12345 NW Swan Dr:Portland:Oregon:97229:valid:
-David Smith:945332876:98767 SW Downtown Ave:Portland:Oregon:97298:valid:
+John Smith:901922445:12345 NW Swan Dr:Portland:Oregon:97229:valid:
+David Smith:905332876:98767 SW Downtown Ave:Portland:Oregon:97298:valid:
 Veronica John:909223445:44558 SE Estuary Dr:Beaverton:Oregon:97005:suspended:45.45:
-Zack Salah:103678233:12669 NE Smith Ln:Tigard:Oregon:97221:valid:
-Lilly Kyle:934567234:98332 SW Apt Ave:Portland:Oregon:97554:suspended:30.45:
+Zack Salah:903678233:12669 NE Smith Ln:Tigard:Oregon:97221:valid:
+Lilly Kyle:904567234:98332 SW Apt Ave:Portland:Oregon:97554:suspended:30.45:

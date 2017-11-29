@@ -106,6 +106,16 @@ int info::check_mem_equal(information& info)
 return 0;
 }
 
+int info::check_pro_equal(information &info)
+{
+    if(info.provider_number == number)
+    {
+        info.provider_name = name;
+        return 1;
+    }
+return 0;
+}
+
 int info::generate()
 {
     ofstream out;

@@ -89,6 +89,7 @@ class info
         int copy_lll(info &);
         int check_bst_move(int);
         int check_mem_equal(struct information&);
+        int check_pro_equal(struct information&);
         int generate();
         void insert(information &);
 

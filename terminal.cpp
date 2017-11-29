@@ -7,6 +7,10 @@ Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NU
 {
     read();
     srand(time(0));
+    char memberCHOC_AN[] = "ChocAn_members.txt";
+    char providerCHOC_AN[] = "ChocAn_providers.txt";
+    member.read_forms(memberCHOC_AN);
+    provider.read_forms(providerCHOC_AN); 
 }
 int Terminal::read()
 {
@@ -43,7 +47,11 @@ int Terminal::menu(int user_type)
 void Terminal::providers(int choice)
 {
     char file[] = "ChocAn_members.txt";
-    read_member_validation(file);
+    read_validation(file, 0);
+
+    char file2[] = "ChocAn_providers.txt";
+    read_validation(file2, 1);
+
     information info;
 
     if(choice == 1)
@@ -68,11 +76,13 @@ void Terminal::operators(int choice)
     if(choice == 1)
     {
         char file[] = "new_members.txt";
-        add_members(to_add, file);
+        char check_file[] = "member_validation.txt";
+        add_members(to_add, file, check_file);
     }
     else if(choice == 2)
     {
         char file[] = "new_providers.txt";
+        char check_file[] = "provider_validation.txt";
         add_providers(to_add, file);
     }
     else if(choice == 4)
@@ -87,10 +97,18 @@ void Terminal::operators(int choice)
     else;
 }
 
-int Terminal::read_member_validation(char *file)
+int Terminal::read_validation(char *file, int who)
 {
+    char file2[SIZE];
+    if(who == 0)
+    {
+        strcpy(file2, "member_validation.txt");
+    }
+    else
+        strcpy(file2, "provider_validation.txt");
+
+
     int count_lines = 0;
-    int ch;
     string line;
     ifstream in;
     in.open(file);
@@ -118,42 +136,73 @@ int Terminal::read_member_validation(char *file)
     char temp[SIZE];
 
     in.open(file);
-    while(!in.eof() && in.get(temp, SIZE, ':'))
+
+    if(who == 0)
     {
-        in.ignore(100,':');
-
-        in >> number; numbers[index] = number;
-        in.ignore(100,':');
-
-        in.get(temp,SIZE,':');
-        in.ignore(100,':'); 
-
-        in.get(temp,SIZE,':');
-        in.ignore(100,':');
-
-        in.get(temp,SIZE,':');
-        in.ignore(100,':'); 
-
-        in >> random; in.ignore(100,':');
-
-        in.get(temp, SIZE, ':'); status[index] = temp;
-        in.ignore(100, ':');
-
-        if(status[index].compare("suspended") == 0)
+        while(!in.eof() && in.get(temp, SIZE, ':'))
         {
-            in >> suspend_fee; suspended[index] = suspend_fee;
-            in.ignore(100, '\n');
-            ++suspend_index;
-        }
-        else
-        {
-            suspended[index] = 0.0;
-            in.ignore(100, '\n');
-        }
+            in.ignore(100,':');
 
-        ++index;
+            in >> number; numbers[index] = number;
+            in.ignore(100,':');
+
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); 
+
+            in.get(temp,SIZE,':');
+            in.ignore(100,':');
+
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); 
+
+            in >> random; in.ignore(100,':');
+
+            in.get(temp, SIZE, ':'); status[index] = temp;
+            in.ignore(100, ':');
+
+            if(status[index].compare("suspended") == 0)
+            {
+                in >> suspend_fee; suspended[index] = suspend_fee;
+                in.ignore(100, '\n');
+                ++suspend_index;
+            }
+            else
+            {
+                suspended[index] = 0.0;
+                in.ignore(100, '\n');
+            }
+
+            ++index;
+        }
+        in.close();
     }
-    int x = 0;
+    else
+    {
+        while(!in.eof() && in.get(temp, SIZE, ':'))
+        {
+            in.ignore(100,':');
+
+            in >> number; numbers[index] = number;
+            in.ignore(100,':');
+
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); 
+
+            in.get(temp,SIZE,':');
+            in.ignore(100,':');
+
+            in.get(temp,SIZE,':');
+            in.ignore(100,':'); 
+
+            in >> random; in.ignore(100,':');
+
+            in.get(temp, SIZE, ':'); status[index] = temp;
+            in.ignore(100, '\n');
+
+            ++index;
+        }
+        in.close();
+    }
 
     /*
     for(int i = 0; i < count_lines; ++i)
@@ -166,18 +215,18 @@ int Terminal::read_member_validation(char *file)
     */
 
     //write to the file now
-    return write_member_validation(count_lines, numbers, status, suspended);
+    return write_validation(count_lines, numbers, status, suspended, file2);
 
 
 }
 
-int Terminal::write_member_validation(int count_lines, int *numbers, string status[], float *suspended)
+int Terminal::write_validation(int count_lines, int *numbers, string status[], float *suspended, char *file)
 {
     int count = 0;
     int index = 0;
     //int suspend_index = 0;
     ofstream output;
-    output.open("member_validation.txt", ios::app);
+    output.open(file, ios::app);
 
     if(!output)
     {
@@ -198,6 +247,7 @@ int Terminal::write_member_validation(int count_lines, int *numbers, string stat
         ++index;
         ++count;
     }
+    output.close();
 
     return 1;
 
@@ -212,14 +262,16 @@ int Terminal::account_number_validation(int user_entry)
 
 int Terminal::provide_service(information &info, char *file)
 {
-    member.read_forms(file);
+    //member.read_forms(file);
     //member.display();
     //temporary
-    info.member_number = 103678233; info.provider_number = 910344322; info.service_code = 661390; 
+    info.member_number = 903678233; info.provider_number = 910344322; info.service_code = 661390; 
     info.service_fee = 45.25; 
     info.member_name = "John Smith";
 
-
+    //get member name
+    member.get_member_name(info);
+    provider.get_provider_name(info); 
 /*
         Zack's member validation stuff
 */
@@ -258,9 +310,6 @@ int Terminal::provide_service(information &info, char *file)
    cin.get(info.comments, SIZE, '\n');
    cin.ignore(100,'\n');
 
-    //get member name
-   member.get_member_name(info);
-
 
    //at very end
    return get_disk_info(info);
@@ -277,8 +326,8 @@ int Terminal::get_disk_info(information& info)
        cout << "UNIT TEST FAILED" << endl;
 */
 
-   if(!write_to_file(info))
-       cout << "Unable to write information to file" << endl;
+   //if(!write_to_file(info))
+       //cout << "Unable to write information to file" << endl;
 
 /*
     6) Use Service Code to look up fee and display it (+save it) 
@@ -298,7 +347,7 @@ int Terminal::get_disk_info(information& info)
 */
     
 
-    return write_provider_verification(info);
+    //return write_provider_verification(info);
 
 }
 
@@ -373,20 +422,20 @@ int Terminal::VERIFY_NUMBER_TEST(int number, int length)
 }
 
 
-int Terminal::add_members(common_info &to_add, char *file)
+int Terminal::add_members(common_info &to_add, char *file, char *check_file)
 {
     int member_number;
 
     cout << "Full Name: ";
     getline(cin, to_add.Name);
 
-    //provider
-    //int number = (rand() % 9999999) + 910000000;
+    do
+    {
+        member_number = (rand() % 9999999) + 900000000;
+    }while(!check_generated(member_number, check_file));
 
-    //generate member number
-    member_number = (rand() % 9999999) + 900000000;
-
-    to_add.Number = member_number;
+    to_add.Number = member_number;  
+    add_new(to_add.Number, check_file);
 
     cout << "Street Address: ";
     getline(cin, to_add.Street_address);
@@ -404,9 +453,48 @@ int Terminal::add_members(common_info &to_add, char *file)
         cin.ignore();
     }while(!valid(to_add.Zip, 5));
 
-    write_to_file(to_add, file);
-    member.read_forms(file);        //add members to bst
+    write_to_file(to_add, file);    //sent to ACME to update new members at 9pm
+    //member.read_forms(file);        //add members to bst
     //member.display();
+}
+
+int Terminal::add_new(int num_to_add, char *file)
+{
+    ofstream output;
+    output.open(file, ios::app);
+
+    if(!output)
+        return 0;
+
+    //NA = Not Available since they are new members not yet approved by ACME
+    output << num_to_add << ":" << "NA" << ":" << "NA" << endl;
+
+}
+
+int Terminal::check_generated(int to_check, char *check_file)
+{
+    int num_from_file;
+    int success = 1;
+    ifstream infile;
+    infile.open(check_file);
+
+    if(!infile)
+    {
+        cout << "File couldnt be opened" << endl;
+        return 0;
+    }
+
+    while(!infile.eof() && infile >> num_from_file)
+    {
+        cout << "num: " << num_from_file << endl;
+        if(num_from_file == to_check)
+            success = 0;
+
+        infile.ignore(100, '\n');
+        
+    }
+
+    return success;
 }
 
 int Terminal::write_to_file(common_info to_add, char *file)
