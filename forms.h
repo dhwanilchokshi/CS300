@@ -30,6 +30,7 @@ class data
     public:
         data();
         ~data();
+        data(data&);
         void createMember(information & to_copy);
         void createProvider(information & copy_provider);
         void copy();

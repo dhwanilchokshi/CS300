@@ -191,6 +191,7 @@ int manage::remove(t_node *& root,int id_to_remove)
             {
                 current->get_info(get);
                 root->copy(get);
+                root->copy_lll(*current);
                 if(current->get_right())
                 {
                         root->get_right() = current->get_right();
@@ -217,6 +218,7 @@ int manage::remove(t_node *& root,int id_to_remove)
                     prev->get_left() = current->get_right();
                 current->get_info(get);
                 root->copy(get);
+                root->copy_lll(*current);
                 delete current;
                 track-=1;
                 return 1;
