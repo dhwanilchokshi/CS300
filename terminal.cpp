@@ -262,17 +262,14 @@ int Terminal::account_number_validation(int user_entry)
 
 int Terminal::provide_service(information &info, char *file)
 {
-    //member.read_forms(file);
-    //member.display();
     //temporary
     info.member_number = 903678233; info.provider_number = 910344322; info.service_code = 661390; 
     info.service_fee = 45.25; 
 
     //get member name
     member.get_member_name(info);
-    cout << "member name: " << info.member_name << endl;
+    //get provider name
     provider.get_provider_name(info); 
-    cout << "provider name: " << info.provider_name << endl;
 /*
         Zack's member validation stuff
 */
