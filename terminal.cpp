@@ -245,16 +245,6 @@ int Terminal::read_validation(char *file, int who)
         in.close();
     }
 
-    /*
-    for(int i = 0; i < count_lines; ++i)
-    {
-        cout << "number: " << numbers[i] << endl;
-        cout << "status: " << status[i] << endl;
-        cout << "fee: " << suspended[i] << endl; 
-
-    }
-    */
-
     //write to the file now
     return write_validation(count_lines, numbers, status, suspended, file2);
 
@@ -303,6 +293,12 @@ int Terminal::account_number_validation(int user_entry)
 
 int Terminal::provide_service(information &info, char *file)
 {
+    //check first member validation:
+
+        
+    //check second member validation:
+
+
     //temporary
     info.member_number = 903678233; info.provider_number = 910344322; info.service_code = 661390; 
     info.service_fee = 45.25; 
@@ -311,44 +307,74 @@ int Terminal::provide_service(information &info, char *file)
     member.get_member_name(info);
     //get provider name
     provider.get_provider_name(info); 
-/*
-        Zack's member validation stuff
-*/
+
     time_t now = time(0);
+    char choice;
     tm * ltm = localtime(&now);
 
     do
     {
-       cout << "Please enter the service month (MM): ";
+       cout << "Please enter current service month (MM): ";
        cin >> info.service_month;
        cin.ignore();
-       cout << "month: " << 1 + ltm->tm_mon;
     }while(valid(info.service_month, 2) && (info.service_month != (1+ ltm->tm_mon)));
 
    do
    {
-       cout << "Please enter the service day (DD): ";
+       cout << "Please enter current service day (DD): ";
        cin >> info.service_day;
        cin.ignore();
    }while(valid(info.service_day, 2) && (info.service_day != ltm->tm_mday));
 
    do
    {
-       cout << "Please enter the service year (YYYY): ";
+       cout << "Please enter current service year (YYYY): ";
        cin >> info.service_year;
        cin.ignore();
    }while(valid(info.service_year, 4) && (info.service_year != (1900 + ltm->tm_year)));
 
-   cout << "\nYour input has been saved!" << endl;
 
+    //logging the current date and time from the computer
    info.current_month = 1 + ltm->tm_mon; info.current_day = ltm->tm_mday; info.current_year = 1900 + ltm->tm_year;
    info.current_hour = ltm->tm_hour; info.current_min = 1 + ltm->tm_min; info.current_sec = 1 + ltm->tm_sec;
-   cout << "\nCurrent date and time have been logged in the system!" << endl;
 
-   cout << "Additional Comments: ";
+   //service code display
+   cout << "\nThe Provider's Directory: " << endl;
+   directory.display_services();
+
+   do
+   {
+       do
+       {
+           cout << "Please type in the service code for the service provided: ";
+           cin >> info.service_code;
+           cin.ignore();
+       }while(!valid(info.service_code, 5));
+       
+       if(directory.verify_service(info.service_code) == 1)
+       {
+           directory.copy_info(info, info.service_code);
+           cout << "Service Name: " << info.service_name << endl;
+       }
+       
+       else
+           cout << "No service of such code was found!" << endl;
+
+       cout << "Verified (y/n): ";
+       cin >> choice;
+       cin.ignore();
+   }while(choice == 'n' || choice == 'N');
+
+   cout << "\nAny Additional Comments: ";
    cin.get(info.comments, SIZE, '\n');
    cin.ignore(100,'\n');
 
+
+   //send member info to be added to forms
+   member.adding_extra(info, info.member_number);
+
+   //send provider info to be added to forms
+   provider.adding_extra(info, info.provider_number);
 
    //at very end
    return get_disk_info(info);
@@ -368,23 +394,6 @@ int Terminal::get_disk_info(information& info)
    //if(!write_to_file(info))
        //cout << "Unable to write information to file" << endl;
 
-/*
-    6) Use Service Code to look up fee and display it (+save it) 
-*/
-
-/*
-    7) get information from provider to enter on the provider verification form
-
-    WRITE TO PROVIDER VERIFICATION FORM:
-        - Enter current date and time (MM-DD-YYYY HH:MM:SS)
-        - Date service was provided (MM-DD-YYYY)
-        - Member Name and Number (Member Name from Member BST, Number already stored)
-        - Service Code (already stored)
-        - Service Fee (look up)
-
-        *Going to have to look up Member Name using # and Service Fee using service #
-*/
-    
 
     //return write_provider_verification(info);
 

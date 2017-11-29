@@ -64,7 +64,9 @@ int Services_BST::compare_name(string & name)
  */
 int Services_BST::compare_code(int code)
 {
-    return (code == service_code);
+    if(code == service_code)
+        return 1;
+    return 0;
 }
 
 
