@@ -23,6 +23,8 @@ class Terminal
         void operators(int choice);
 
         //Provider funtions
+        int read_validation(char *, int);
+        int write_validation(int, int *, string[], float *, char*);
         int VERIFY_NUMBER_TEST(int, int);
         int directory_file_request();
         int provide_service(struct information&, char *);
@@ -34,7 +36,9 @@ class Terminal
         //Manager funtions
 
         //Operators funtions
-        int add_members(struct common_info &, char *);
+        int add_members(struct common_info &, char *, char *);
+        int add_new(int, char *);
+        int check_generated(int, char *);
         int add_providers(struct common_info &, char *);
         int write_to_file(struct common_info, char *);
         int remove(int);
