@@ -89,6 +89,22 @@ int Provider_Directory::verify_service(int scanned_code, Services_BST *& current
     return verify_service(scanned_code, current->go_left()) + verify_service(scanned_code, current->go_right());
 }
 
+int Provider_Directory::copy_info(struct information & to_populate, int scanned_code)
+{
+    return copy_info(to_populate, scanned_code, root);
+}
+int Provider_Directory::copy_info(struct information & to_populate, int scanned_code, Services_BST *& root)
+{
+    if(!root)
+        return 0;
+    if (root->compare_code(scanned_code))
+    {
+        root->info_copy(to_populate);
+        return 1;
+    }
+        copy_info(to_populate, scanned_code, root->go_left()) + copy_info(to_populate, scanned_code, root->go_right());
+ 
+}
 
 
 /*

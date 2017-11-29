@@ -18,7 +18,7 @@ public:
     int compare_name(string &);
     int compare_code(int);
     int display_service();
-    int info_copy(struct infromation &);
+    int info_copy(struct information &);
     int directory_copy(ofstream &);
     int remove();
     Services_BST *& go_left();

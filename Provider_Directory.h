@@ -14,6 +14,7 @@ public:
     int insert_service(string &, int, float);
     int verify_service(int);
     int display_service(string &,int);
+    int copy_info(struct information &, int);
     int display_services();
     int remove_services();
     int copy(ofstream &);
@@ -21,6 +22,7 @@ public:
 protected:
     Services_BST * root;
     int copy(ofstream &, Services_BST *&);
+    int copy_info(struct information &, int, Services_BST *&);
     int insert_service(string &, int, float, Services_BST *&);
     int verify_service(int, Services_BST *&);
     int display_service(string &, int, Services_BST *&);

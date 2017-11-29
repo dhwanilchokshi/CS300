@@ -89,7 +89,7 @@ int Services_BST::directory_copy(ofstream & write)
     return 1;
 }
 
-int Services_BST::info_copy(struct infromation & copy)
+int Services_BST::info_copy(struct information & copy)
 {
     copy.service_code = service_code;
     copy.service_fee = service_cost;
