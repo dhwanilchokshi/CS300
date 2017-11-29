@@ -8,6 +8,7 @@
 using namespace std;
 
 const int SIZE = 100;
+const char summary[] = "summary.txt";
 
 struct information{
     information();
@@ -41,6 +42,7 @@ class data
         void createProvider(information & copy_provider);
         void copy();
         void write_extra(char * filename);
+        void display();
     protected:
         information extra;
         //member information:
@@ -92,6 +94,7 @@ class info
         int check_pro_equal(struct information&);
         int generate();
         void insert(information &);
+        void write_summary();
 
     protected:
         node * head;
@@ -106,5 +109,7 @@ class info
         string status;
         int fee;
 
+        int total_fees;
+        int consult;
 };
 
