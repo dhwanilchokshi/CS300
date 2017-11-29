@@ -61,8 +61,15 @@ int manage::read_forms(char formFile [])
             in >> zip_code; in.ignore(100,'\n');
             source.create(read,id_num,zip_code);
             insert(source);
+           
+        }
+        if(read)
+            {
+                delete [] string;
+                string = NULL;
             }
-    }
+
+
 
     return 1;
 }
