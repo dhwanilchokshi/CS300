@@ -13,7 +13,7 @@ class Terminal
         Terminal();
 
         //Terminal start screen
-        int terminal_access(int user_entry);
+        int terminal_access();
 
         //User menus
         int menu(int user_type);

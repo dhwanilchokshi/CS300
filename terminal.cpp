@@ -11,10 +11,17 @@ Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NU
     char providerCHOC_AN[] = "ChocAn_providers.txt";
     member.read_forms(memberCHOC_AN);
     provider.read_forms(providerCHOC_AN); 
+    read_validation(memberCHOC_AN, 0);
+    read_validation(providerCHOC_AN, 1);
 }
 int Terminal::read()
 {
     return 1;
+}
+int Terminal::terminal_access()
+{
+
+    return 1; 
 }
 int Terminal::menu_selector(int menu_choice, bool sub_menu)
 {
@@ -54,11 +61,7 @@ int Terminal::menu(int user_type)
 }
 void Terminal::providers(int choice)
 {
-    char file[] = "ChocAn_members.txt";
-    read_validation(file, 0);
 
-    char file2[] = "ChocAn_providers.txt";
-    read_validation(file2, 1);
 
     information info;
 
@@ -273,7 +276,7 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
             output << status[index] << ":" << suspended[index] << endl;
         }
         else
-            output << status[index] << endl;
+            output << status[index]<< ":" << endl;
 
         ++index;
         ++count;
@@ -286,11 +289,81 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
 }
 
 int Terminal::member_number_validation(int user_entry)
-{return 1;}
+{
+    ifstream to_find;
+    to_find.open("member_validation.txt");
+    int to_comp;
+    char status[30];
+    float fees;
+    bool found = true;
+    while(!to_find.eof() && found)
+    {
+        to_find>>to_comp;
+        to_find.ignore(100,':');
+        to_find.get(status,30,':');
+        
+        if(!strcmp(status,"suspended"))
+        {
+            to_find.ignore(100,':');
+            to_find>>fees;
+            to_find.ignore(100,'\n');
+        }
+        to_find.ignore(100,'\n');
+        if(user_entry == to_comp)
+        {
+            if(!strcmp(status,"suspended"))
+            {
+                cout<<"Memeber Number: "<<to_comp
+                    <<"\nStatus: "<<status
+                    <<"\nUnpaid Fees: $"<<fees<<endl;
+                to_comp = 0;
+            }
+            found = false;
+        }
+        fees = 0;
+    }
+    to_find.clear();
+    to_find.close();
+    if(found)
+        return 1;
+    return to_comp;
+}
 int Terminal::account_number_validation(int user_entry)
-{return 1;}
-
-
+{
+    ifstream to_find;
+    if(user_entry >= 910000000 && user_entry <= 919999999)
+        to_find.open("provider_validation.txt");
+    else if(user_entry >= 920000000 && user_entry <= 929999999)
+        to_find.open("operator_validation.txt");
+    else if(user_entry >= 930000000 && user_entry <= 939999999)
+        to_find.open("manager_validation.txt");
+    
+    int to_comp;
+    char status[30];
+    bool found = true;
+    while(!to_find.eof() && found)
+    {
+        to_find>>to_comp;
+        to_find.ignore(100,':');
+        to_find.get(status,30,':');
+        to_find.ignore(100,'\n');
+        if(user_entry == to_comp)
+        {
+            if(!strcmp(status,"suspended"))
+            {
+                cout<<"Memeber Number: "<<to_comp
+                    <<"\nStatus: "<<status<<endl;
+                to_comp = 0;
+            }
+            found = false;
+        }
+    }
+    to_find.clear();
+    to_find.close();
+    if(found)
+        return 1;
+    return to_comp;
+}
 int Terminal::provide_service(information &info, char *file)
 {
     //check first member validation:
