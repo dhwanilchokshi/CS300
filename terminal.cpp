@@ -16,30 +16,38 @@ int Terminal::read()
 {
     return 1;
 }
+int Terminal::menu_selector(int menu_choice, bool sub_menu)
+{
+    int choice;
+    cout<<"What would you like to do? - Please choose a number corresponding to the menu item:";
+    if(sub_menu)
+        cout<<"\n0 - Previous mene"<<endl;
+    else 
+        cout<<"\n0 - LOGOUT"<<endl;
+    cout<<menues[menu_choice];
+    cout<<"CHOICE: ";
+    cin>>choice;
+    cin.ignore(100,'\n');
+    return choice;
+}
 int Terminal::menu(int user_type)
 {
     int choice = 0;
-    bool INmenu = false;
+    bool INmenu = true;
     cout<<"Welcome -name-\n"
         <<"//////////////////////////////////////////////"<<endl;
     do 
     {
-        INmenu = false;
-        cout<<"What would you like to do? - Please choose a number corresponding to the menu item:"
-            <<"\n0 - LOGOUT"<<endl;
-        cout<<menues[user_type];
-        cout<<"CHOICE: ";
-        cin>>choice;
-        cin.ignore(100,'\n');
-        if(!choice);
+        choice = menu_selector(user_type, 0);
+        if(!choice)
+            INmenu = false;
         else if((user_type == 0) && (choice < 4 && choice > 0))
             providers(choice);
         else if((user_type == 1) && (choice < 3 && choice > 0))
             managers(choice);
         else if((user_type == 2) && (choice < 5 && choice > 0))
             operators(choice);
-        else
-            INmenu = true;
+
     }while(INmenu);
     cout<<"\n~~~LOGOUT~~~\n";
     return 1;
@@ -60,8 +68,41 @@ void Terminal::providers(int choice)
         char file[] = "ChocAn_members.txt";
         provide_service(info, file);
     }
-    else if(choice == 2);
-    else;
+    else if(choice == 2)
+    {
+        bool INmenu = true;
+        string to_find_str;
+        int to_find_int;
+        do
+        {
+            choice = menu_selector(3, 1);
+            if(!choice)
+                INmenu = false;
+            if(choice < 4 && choice > 0)
+            {
+                if(choice == 1)
+                {
+                    cout<<"Please enter the name of the service:"<<endl;
+                    cin>>to_find_str;
+                    cin.ignore(100,'\n');
+                    directory.display_service(to_find_str,0);
+                }
+                else if(choice == 2)
+                {
+                    cout<<"Please enter the code of the service:"<<endl;
+                    cin>>to_find_int;
+                    cin.ignore(100,'\n');
+                    directory.display_service(to_find_str,to_find_int);
+                }
+                else
+                    directory.display_services();
+            }
+            else 
+                cout<<"Invalid Choice"<<endl;
+        }while(INmenu);
+    }
+    else
+        directory_file_request();
 }
 void Terminal::managers(int choice)
 {
@@ -204,16 +245,6 @@ int Terminal::read_validation(char *file, int who)
         in.close();
     }
 
-    /*
-    for(int i = 0; i < count_lines; ++i)
-    {
-        cout << "number: " << numbers[i] << endl;
-        cout << "status: " << status[i] << endl;
-        cout << "fee: " << suspended[i] << endl; 
-
-    }
-    */
-
     //write to the file now
     return write_validation(count_lines, numbers, status, suspended, file2);
 
@@ -262,6 +293,12 @@ int Terminal::account_number_validation(int user_entry)
 
 int Terminal::provide_service(information &info, char *file)
 {
+    //check first member validation:
+
+        
+    //check second member validation:
+
+
     //temporary
     info.member_number = 903678233; info.provider_number = 910344322; info.service_code = 661390; 
     info.service_fee = 45.25; 
@@ -270,44 +307,74 @@ int Terminal::provide_service(information &info, char *file)
     member.get_member_name(info);
     //get provider name
     provider.get_provider_name(info); 
-/*
-        Zack's member validation stuff
-*/
+
     time_t now = time(0);
+    char choice;
     tm * ltm = localtime(&now);
 
     do
     {
-       cout << "Please enter the service month (MM): ";
+       cout << "Please enter current service month (MM): ";
        cin >> info.service_month;
        cin.ignore();
-       cout << "month: " << 1 + ltm->tm_mon;
     }while(valid(info.service_month, 2) && (info.service_month != (1+ ltm->tm_mon)));
 
    do
    {
-       cout << "Please enter the service day (DD): ";
+       cout << "Please enter current service day (DD): ";
        cin >> info.service_day;
        cin.ignore();
    }while(valid(info.service_day, 2) && (info.service_day != ltm->tm_mday));
 
    do
    {
-       cout << "Please enter the service year (YYYY): ";
+       cout << "Please enter current service year (YYYY): ";
        cin >> info.service_year;
        cin.ignore();
    }while(valid(info.service_year, 4) && (info.service_year != (1900 + ltm->tm_year)));
 
-   cout << "\nYour input has been saved!" << endl;
 
+    //logging the current date and time from the computer
    info.current_month = 1 + ltm->tm_mon; info.current_day = ltm->tm_mday; info.current_year = 1900 + ltm->tm_year;
    info.current_hour = ltm->tm_hour; info.current_min = 1 + ltm->tm_min; info.current_sec = 1 + ltm->tm_sec;
-   cout << "\nCurrent date and time have been logged in the system!" << endl;
 
-   cout << "Additional Comments: ";
+   //service code display
+   cout << "\nThe Provider's Directory: " << endl;
+   directory.display_services();
+
+   do
+   {
+       do
+       {
+           cout << "Please type in the service code for the service provided: ";
+           cin >> info.service_code;
+           cin.ignore();
+       }while(!valid(info.service_code, 5));
+       
+       if(directory.verify_service(info.service_code) == 1)
+       {
+           directory.copy_info(info, info.service_code);
+           cout << "Service Name: " << info.service_name << endl;
+       }
+       
+       else
+           cout << "No service of such code was found!" << endl;
+
+       cout << "Verified (y/n): ";
+       cin >> choice;
+       cin.ignore();
+   }while(choice == 'n' || choice == 'N');
+
+   cout << "\nAny Additional Comments: ";
    cin.get(info.comments, SIZE, '\n');
    cin.ignore(100,'\n');
 
+
+   //send member info to be added to forms
+   member.adding_extra(info, info.member_number);
+
+   //send provider info to be added to forms
+   provider.adding_extra(info, info.provider_number);
 
    //at very end
    return get_disk_info(info);
@@ -327,23 +394,6 @@ int Terminal::get_disk_info(information& info)
    //if(!write_to_file(info))
        //cout << "Unable to write information to file" << endl;
 
-/*
-    6) Use Service Code to look up fee and display it (+save it) 
-*/
-
-/*
-    7) get information from provider to enter on the provider verification form
-
-    WRITE TO PROVIDER VERIFICATION FORM:
-        - Enter current date and time (MM-DD-YYYY HH:MM:SS)
-        - Date service was provided (MM-DD-YYYY)
-        - Member Name and Number (Member Name from Member BST, Number already stored)
-        - Service Code (already stored)
-        - Service Fee (look up)
-
-        *Going to have to look up Member Name using # and Service Fee using service #
-*/
-    
 
     //return write_provider_verification(info);
 
@@ -415,10 +465,24 @@ int Terminal::VERIFY_NUMBER_TEST(int number, int length)
 {
     if(valid(number, length))
         return 1;
-
     return 0;
 }
-
+int Terminal::directory_file_request()
+{
+    ofstream write;
+    write.open("copy_of_provider_directory.txt");
+    
+    if(write)
+        directory.copy(write);
+    else
+    {
+        cout<<"ABORT. Something went wrong.\n";
+        return 0;
+    }
+    return 1;
+    write.close();
+    write.clear();
+}
 
 int Terminal::add_members(common_info &to_add, char *file, char *check_file)
 {

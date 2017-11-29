@@ -1,3 +1,5 @@
+#ifndef FORMS_H
+#define FORMS_H
 #include <iostream>
 #include <cctype>
 #include <ctime>
@@ -112,4 +114,4 @@ class info
         int total_fees;
         int consult;
 };
-
+#endif
