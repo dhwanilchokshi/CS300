@@ -88,8 +88,6 @@ int Terminal::menu(int user_type)
 }
 void Terminal::providers(int choice)
 {
-
-
     information info;
 
     if(choice == 1)
@@ -325,21 +323,23 @@ int Terminal::member_number_validation(int user_entry)
     int to_comp;
     char status[30];
     float fees;
-    bool found = true;
-    while(!to_find.eof() && found)
+    bool found = false;
+    while(!to_find.eof() && !found)
     {
         to_find>>to_comp;
         to_find.ignore(100,':');
         to_find.get(status,30,':');
+        to_find.ignore(100,':');
         
-        if(!strcmp(status,"suspended"))
+        if(strcmp(status,"suspended") == 0)
         {
-            to_find.ignore(100,':');
+            //to_find.ignore(100,':');
             to_find>>fees;
             to_find.ignore(100,'\n');
         }
         else
             to_find.ignore(100,'\n');
+
         if(user_entry == to_comp)
         {
             if(!strcmp(status,"suspended"))
@@ -349,7 +349,7 @@ int Terminal::member_number_validation(int user_entry)
                     <<"\nUnpaid Fees: $"<<fees<<endl;
                 to_comp = 0;
             }
-            found = false;
+            found = true;
         }
         fees = 0;
     }
@@ -357,7 +357,7 @@ int Terminal::member_number_validation(int user_entry)
     to_find.close();
     if(found)
         return 1;
-    return to_comp;
+    return 0;
 }
 int Terminal::account_number_validation(int user_entry)
 {
@@ -405,15 +405,17 @@ int Terminal::provide_service(information &info, char *file)
         cin>>input;
         cin.ignore(100,'\n');
         member_numbers = member_number_validation(input);
-        if(member_numbers == 1)
-            cout<<"\nMember Number Not found\n";
-        if(member_numbers == 2)
-            cout<<"\nInvalid Member Number\n";
-    }while(member_numbers ^ member_numbers > 2);
+        if(member_numbers == 2 || !member_numbers)
+            cout<<"\nMember Status: Invalid\n";
+
+    }while(!member_numbers || member_numbers == 2);
     if(!member_numbers)
         return 0;
-    else
-        cout<<"\nMemebr Status Is Valid.\n\nProcided with prodivering a service\n";
+    else if(member_numbers == 1)
+    {
+        cout<<"\nMember Status: Valid\n\nProceed with providing a service\n";
+        member_numbers = input;
+    }
 
     do{
         cout<<"\nEnter a member number to report a service\n"
@@ -421,14 +423,12 @@ int Terminal::provide_service(information &info, char *file)
         cin>>input;
         cin.ignore(100,'\n');
     }while(input != member_numbers);
-    //temporary
-    info.member_number = 903678233; info.provider_number = 910344322; info.service_code = 661390; 
-    info.service_fee = 45.25; 
 
-    //get member name
-    member.get_member_name(info);
-    //get provider name
-    provider.get_provider_name(info); 
+    //get member and provider number
+    info.member_number = member_numbers; info.provider_number = provider_numbers;
+
+    //get member name and provider name
+    member.get_member_name(info); provider.get_provider_name(info); 
 
     time_t now = time(0);
     char choice;
@@ -668,14 +668,12 @@ int Terminal::check_generated(int to_check, char *check_file)
         return 0;
     }
 
-    while(!infile.eof() && infile >> num_from_file)
+    while(infile >> num_from_file && !infile.eof())
     {
-        cout << "num: " << num_from_file << endl;
         if(num_from_file == to_check)
             success = 0;
 
         infile.ignore(100, '\n');
-        
     }
 
     return success;
