@@ -26,7 +26,7 @@ void manage::clear_all(t_node *& root)
     clear_all(root->get_right());
     if(root)
     {
-        root->~info();
+        //root->~info();
         delete root;
         root=NULL;
     }
@@ -62,8 +62,12 @@ int manage::read_forms(char formFile [])
             source.create(read,id_num,zip_code);
             insert(source);
         }
+        if(read)
+        {
+            delete [] read;
+            read = NULL;
+        }
     }
-
     return 1;
 }
 int manage::read_providers(char formFile [])
