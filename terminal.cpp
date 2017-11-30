@@ -3,6 +3,9 @@ using namespace std;
 
 //Terminal class
 
+const char memberCHOC_AN[] = "ChocAn_members.txt";
+const char providerCHOC_AN[] = "ChocAn_providers.txt";
+
 Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NULL), operator_numbers(NULL), member_status(NULL)
 {
     srand(time(0));
@@ -196,8 +199,10 @@ int Terminal::read_validation(char *file, int who)
     {
         strcpy(file2, "member_validation.txt");
     }
-    else
+    else if(who == 1)
         strcpy(file2, "provider_validation.txt");
+    else
+        strcpy(file2, "mock_info.txt");
 
 
     int count_lines = 0;
