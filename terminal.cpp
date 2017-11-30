@@ -740,8 +740,6 @@ int Terminal::add_providers(common_info &to_add, char *file, char *check_file)
 
     
     //generate provider number
-    provider_number = (rand() % 9999999) + 910000000;
-    to_add.Number = provider_number;
     do
     {
         provider_number = (rand() % 9999999) + 910000000;
