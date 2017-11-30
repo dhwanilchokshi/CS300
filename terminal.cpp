@@ -5,7 +5,6 @@ using namespace std;
 
 Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NULL), operator_numbers(NULL), member_status(NULL)
 {
-    read();
     srand(time(0));
     char memberCHOC_AN[] = "ChocAn_members.txt";
     char providerCHOC_AN[] = "ChocAn_providers.txt";
@@ -13,10 +12,6 @@ Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NU
     provider.read_forms(providerCHOC_AN); 
     read_validation(memberCHOC_AN, 0);
     read_validation(providerCHOC_AN, 1);
-}
-int Terminal::read()
-{
-    return 1;
 }
 int Terminal::terminal_access()
 { 
