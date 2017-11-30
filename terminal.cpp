@@ -542,20 +542,11 @@ int Terminal::provide_service(information &info, char *file)
 
 int Terminal::get_disk_info(information& info)
 {
-
-/*
-        ------------------UNIT TEST FOR ACCEPTABLE LENGTH-------------------
-   if(VERIFY_NUMBER_TEST(info.member_number, 9) && VERIFY_NUMBER_TEST(info.provider_number, 9) && VERIFY_NUMBER_TEST(info.service_code, 6))
-       cout << "UNIT TEST PASSED" << endl;
-   else
-       cout << "UNIT TEST FAILED" << endl;
-*/
-
-   //if(!write_to_file(info))
-       //cout << "Unable to write information to file" << endl;
+   if(!write_to_file(info))
+       cout << "Unable to write information to file" << endl;
 
 
-    //return write_provider_verification(info);
+    return write_provider_verification(info);
 
 }
 
