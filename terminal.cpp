@@ -681,6 +681,8 @@ int Terminal::add_new(int num_to_add, char *file)
 
     //NA = Not Available since they are new members not yet approved by ACME
     output << num_to_add << ":" << "NA" << ":" << endl;
+    output.close();
+    return 1;
 
 }
 
