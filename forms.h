@@ -1,12 +1,16 @@
+#ifndef FORMS_H
+#define FORMS_H
 #include <iostream>
 #include <cctype>
 #include <ctime>
 #include <string>
 #include <cstring>
 #include <fstream>
+#include <cstdlib>
 using namespace std;
 
 const int SIZE = 100;
+const char summary[] = "summary.txt";
 
 struct information{
     information();
@@ -15,7 +19,7 @@ struct information{
     int member_number, provider_number, service_code;
     int total_consults;
     float service_fee;
-    double weekly_fee;
+    float weekly_fee;
     char comments[SIZE];
     string member_name;
     string provider_name;
@@ -36,10 +40,13 @@ class data
     public:
         data();
         ~data();
+        data(data&);
         void createMember(information & to_copy);
         void createProvider(information & copy_provider);
         void copy();
         void write_extra(char * filename);
+        void display();
+        void display_total();
     protected:
         information extra;
         //member information:
@@ -88,8 +95,10 @@ class info
         int copy_lll(info &);
         int check_bst_move(int);
         int check_mem_equal(struct information&);
+        int check_pro_equal(struct information&);
         int generate();
         void insert(information &);
+        void write_summary();
 
     protected:
         node * head;
@@ -101,6 +110,10 @@ class info
         string city;
         string state;
         int zip_code;
+        string status;
+        int fee;
 
+        float total_fees;
+        int consult;
 };
-
+#endif

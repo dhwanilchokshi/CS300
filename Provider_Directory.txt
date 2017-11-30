@@ -1,0 +1,12 @@
+dental
+52856
+599.99
+orthodonist
+67983
+349.99
+gastro
+56792
+499.99
+optometric
+47869
+299.99

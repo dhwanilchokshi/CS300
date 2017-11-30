@@ -1,7 +1,7 @@
 #include "forms.h"
 information::information():member_number(0),provider_number(0){}
 //info functions 
-info::info():head(NULL){}
+info::info():head(NULL),number(0),zip_code(0),total_fees(0.0),consult(0){}
 info::~info()
 {
     if(head)
@@ -45,12 +45,14 @@ void info::get_info(info & to_get)
     to_get.city = city;
     to_get.state = state;
     to_get.zip_code = zip_code;
+    /*
     if(head)
         copy_lll(to_get);
+        */
 }
 int info::copy_lll(info & to_get)
 {
-    if(!head)
+    if(!to_get.head)
         return 0;
     else
         return copy_lll(to_get.head,head);
@@ -81,12 +83,23 @@ int info::check_id(int to_check)
 
 void info::show()
 {
-    cout << "The Name is: " << name << endl;
-    cout << "ID Number: " << number << "\nStreet Address: " << address
+    cout << "\n\nThe Name is: " << name << endl;
+    cout << "\nID Number: " << number << "\nStreet Address: " << address
         << "\nCity And State of Residence: " << city << ", " << state << ", "
         << zip_code << endl;
-}
+    if(head)
+    {
+        node * current = head;
+        
+        while(current)
+        {
+            current->display();
+            current = current->get_next();
 
+        }
+        head->display_total();
+    }
+}
 int info::check_bst_move(int num_to_check)
 {
     if(num_to_check < number)
@@ -105,6 +118,17 @@ int info::check_mem_equal(information& info)
     
 return 0;
 }
+
+int info::check_pro_equal(information &info)
+{
+    if(info.provider_number == number)
+    {
+        info.provider_name = name;
+        return 1;
+    }
+return 0;
+}
+
 int info::generate()
 {
     ofstream out;
@@ -138,15 +162,40 @@ void info::insert(information & to_add)
 {
     node * hold = new node;
     if(to_add.member_number != 0)
+    {
         hold->createProvider(to_add);
+        consult+=1;
+        to_add.total_consults = consult;
+        total_fees+=to_add.service_fee;
+        to_add.weekly_fee = total_fees;
+    }
     else
         hold->createMember(to_add);
     hold->get_next() = head;
     head = hold;
 }
+void info::write_summary()
+{
+    ofstream out;
+    out.open(summary);
+    
+    out << "Provider Name: " << name << '\n' << "ID Number: " << number << '\n'
+        << "Total Consultations: " << consult << '\n' 
+        << "Total Fee For The Week: " << total_fees <<'\n';
+    out.close();
+}
+
 //data functions
 data::data() {}
 data::~data(){}
+data::data(data & source)
+{
+
+    if(source.extra.member_number !=0)
+        createProvider(source.extra);
+    else
+        createMember(source.extra);
+}
 void data::createMember(information & to_copy)
 {
     extra.service_month = to_copy.service_month;
@@ -176,14 +225,29 @@ void data::write_extra(char * filename)
     if(extra.member_number != 0)
     {
         out << extra.service_month << '/' << extra.service_day <<  '/' <<  extra.service_year
-        << ':' << extra.member_name << ':' <<  extra.member_number << ':' <<  extra.service_code
-        << ':' <<  extra.service_fee << ':' <<  extra.total_consults << ':' <<  extra.weekly_fee;
+        << ':' << extra.member_name << ':' <<  extra.member_number << ':' 
+        <<  extra.service_code
+        << ':' <<  extra.service_fee << ':' <<  extra.total_consults << ':' 
+        << extra.weekly_fee;
+
     }
     else
     {   out << extra.service_month << '/' << extra.service_day <<  '/' <<  extra.service_year
         << ':' << extra.provider_name << ':' << extra.service_name;
     }
     out.close();
+}
+void data::display()
+{
+    cout << "\n\nDate of The Service: " << extra.service_month << "/" << extra.service_day << "/"
+        << extra.service_year<< "\n----\nThe Member The Service Was Provided To Details: "
+        << "\nName: " << extra.member_name << "\nMember ID: " << extra.member_number
+        << "\n----" << "\nService That Was Provided Code: " << extra.service_code
+        << "\nService Fee: " << extra.service_fee << endl;
+}
+void data::display_total()
+{
+    cout<<"\nConsults: "<< extra.total_consults << "\nTotal fees: "<< extra.weekly_fee << endl;
 }
 //node Functions
 node::node():next(NULL){}
