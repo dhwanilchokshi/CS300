@@ -39,7 +39,7 @@ class Terminal
         int add_members(struct common_info &, char *, char *);
         int add_new(int, char *);
         int check_generated(int, char *);
-        int add_providers(struct common_info &, char *);
+        int add_providers(struct common_info &, char *, char *);
         int write_to_file(struct common_info, char *);
         int remove(int);
         //other functionality are in others classes

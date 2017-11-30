@@ -42,9 +42,9 @@ int Terminal::terminal_access()
                 provider_numbers = 0;
             }
             else if(input >= 920000000 && input <= 929999999)
-                menu(1);
-            else if(input >= 930000000 && input <= 939999999)
                 menu(2);
+            else if(input >= 930000000 && input <= 939999999)
+                menu(1);
         }
     }while(1);
     
@@ -134,8 +134,32 @@ void Terminal::providers(int choice)
 }
 void Terminal::managers(int choice)
 {
-    if(choice == 1);
-    else;
+    if(choice == 1)
+    {
+        cout<<"\nSummary report is avaliable\n";
+        provider.create_summary();
+    }
+    else
+    {
+        int input = 0;
+        bool found = true;
+        do{
+            cout<<"Please enter a provider number - ex: 91XXXXXXX\ninput: ";
+            cin>>input;
+            cin.ignore(100, '\n');
+            if(input >= 910000000 && input <= 919999999)
+                input = account_number_validation(input);
+            else
+                cout<<"\nInvalid Number - Please enter a vaild provider number - ex: 91XXXXXXX\n";
+            if(input == 1)
+                cout<<"\nAccount does not exsists\n";
+            else
+                found = false;
+        }while(found);
+        input = provider.read_provider_individual_files(input);
+        if(!input)
+            cout<<"\nNew provider - Need to be revised by Acme\n";
+    }
 }
 
 void Terminal::operators(int choice)
@@ -152,7 +176,7 @@ void Terminal::operators(int choice)
     {
         char file[] = "new_providers.txt";
         char check_file[] = "provider_validation.txt";
-        add_providers(to_add, file);
+        add_providers(to_add, file, check_file);
     }
     else if(choice == 4)
     {
@@ -349,6 +373,13 @@ int Terminal::member_number_validation(int user_entry)
                     <<"\nUnpaid Fees: $"<<fees<<endl;
                 to_comp = 0;
             }
+            else if(!strcmp(status,"NA"))
+            {
+                cout<<"\nMember Number: "<<to_comp;
+                cout<<"\nMember Number: "<<to_comp;
+                to_comp = 0;
+            }
+
             found = true;
         }
         fees = 0;
@@ -692,7 +723,7 @@ int Terminal::write_to_file(common_info to_add, char *file)
     output.close();
 }
 
-int Terminal::add_providers(common_info &to_add, char *file)
+int Terminal::add_providers(common_info &to_add, char *file, char *check_file)
 {
     int provider_number;
 
@@ -703,6 +734,12 @@ int Terminal::add_providers(common_info &to_add, char *file)
     //generate provider number
     provider_number = (rand() % 9999999) + 910000000;
     to_add.Number = provider_number;
+    do
+    {
+        provider_number = (rand() % 9999999) + 910000000;
+    }while(!check_generated(provider_number, check_file));
+    to_add.Number = provider_number;
+    add_new(to_add.Number, check_file);
 
     cout << "Street Address: ";
     getline(cin, to_add.Street_address);

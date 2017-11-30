@@ -23,6 +23,7 @@ class manage
         manage(const manage &);
         int read_forms(char formFile[]);
         int read_providers(char formFile[]);
+        int read_provider_individual_files(int to_find);
         int insert(info&);
         int display();
         int remove(int);
@@ -39,6 +40,7 @@ class manage
         int all_fees;
 
         //
+        int read_provider_individual_files(int to_find, t_node * root);
         int insert(t_node *& root, info&);
         int display(t_node * root);
         int remove(t_node *& root,int);

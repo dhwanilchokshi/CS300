@@ -1,7 +1,7 @@
 #include "forms.h"
 information::information():member_number(0),provider_number(0){}
 //info functions 
-info::info():head(NULL),number(0),zip_code(0),total_fees(0),consult(0){}
+info::info():head(NULL),number(0),zip_code(0),total_fees(0.0),consult(0){}
 info::~info()
 {
     if(head)
@@ -90,11 +90,14 @@ void info::show()
     if(head)
     {
         node * current = head;
+        
         while(current)
         {
             current->display();
             current = current->get_next();
+
         }
+        head->display_total();
     }
 }
 int info::check_bst_move(int num_to_check)
@@ -162,7 +165,9 @@ void info::insert(information & to_add)
     {
         hold->createProvider(to_add);
         consult+=1;
-        total_fees+=to_add.weekly_fee;
+        to_add.total_consults = consult;
+        total_fees+=to_add.service_fee;
+        to_add.weekly_fee = total_fees;
     }
     else
         hold->createMember(to_add);
@@ -238,8 +243,11 @@ void data::display()
         << extra.service_year<< "\n----\nThe Member The Service Was Provided To Details: "
         << "\nName: " << extra.member_name << "\nMember ID: " << extra.member_number
         << "\n----" << "\nService That Was Provided Code: " << extra.service_code
-        << "\nService Fee: " << extra.service_fee << "\nConsults: " 
-        << extra.total_consults << endl;
+        << "\nService Fee: " << extra.service_fee << endl;
+}
+void data::display_total()
+{
+    cout<<"\nConsults: "<< extra.total_consults << "\nTotal fees: "<< extra.weekly_fee << endl;
 }
 //node Functions
 node::node():next(NULL){}

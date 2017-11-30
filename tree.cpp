@@ -33,6 +33,23 @@ void manage::clear_all(t_node *& root)
 }
 manage::manage(const manage & obj)
 { }
+
+int manage::read_provider_individual_files(int to_find)
+{
+    return read_provider_individual_files(to_find, root);
+}
+int manage::read_provider_individual_files(int to_find, t_node * root)
+{
+    int found = 0;
+    if (!root)
+        return found;
+    if(root->check_id(to_find))
+    {
+        root->show();
+        ++found;
+    }
+    return read_provider_individual_files(to_find, root->get_left()) + read_provider_individual_files(to_find, root->get_right()) + found;
+}
 int manage::read_forms(char formFile [])
 {
     ifstream in;

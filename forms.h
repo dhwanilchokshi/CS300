@@ -46,6 +46,7 @@ class data
         void copy();
         void write_extra(char * filename);
         void display();
+        void display_total();
     protected:
         information extra;
         //member information:
@@ -112,7 +113,7 @@ class info
         string status;
         int fee;
 
-        int total_fees;
+        float total_fees;
         int consult;
 };
 #endif
