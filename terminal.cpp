@@ -148,13 +148,17 @@ void Terminal::managers(int choice)
             cin>>input;
             cin.ignore(100, '\n');
             if(input >= 910000000 && input <= 919999999)
+            {
                 input = account_number_validation(input);
+                if(input == 2)
+                    cout<<"\nAccount does not exists\n";
+                else if(!input || input == 3);
+                else
+                    found = false;
+            }
             else
                 cout<<"\nInvalid Number - Please enter a vaild provider number - ex: 91XXXXXXX\n";
-            if(input == 1)
-                cout<<"\nAccount does not exsists\n";
-            else
-                found = false;
+
         }while(found);
         input = provider.read_provider_individual_files(input);
         if(!input)
@@ -339,11 +343,13 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
 
 int Terminal::member_number_validation(int user_entry)
 {
+    int flag = 0;
     ifstream to_find;
     if(user_entry >= 900000000 && user_entry <= 909999999)
         to_find.open("member_validation.txt");
     else
         return 2;
+
     int to_comp;
     char status[30];
     float fees;
@@ -362,10 +368,9 @@ int Terminal::member_number_validation(int user_entry)
         }
         else
             to_find.ignore(100,'\n');
-
         if(to_comp == user_entry)
         {
-            if(!strcmp(status,"suspended"))
+            if(strcmp(status,"suspended") == 0)
             {
                 cout<<"\nMember Number: "<<to_comp
                     <<"\nStatus: "<<status
@@ -373,20 +378,19 @@ int Terminal::member_number_validation(int user_entry)
                 to_comp = 0;
             }
             else if(!strcmp(status,"NA"))
-            {
-                cout<<"\nMember Number: "<<to_comp;
-                cout<<"\nMember Number: "<<to_comp;
                 to_comp = 3;
-            }
             found = true;
         }
         fees = 0;
     }
     to_find.clear();
     to_find.close();
-    if(found)
+    if(found && to_comp > 3)
         return 1;
-    return to_comp;
+    else if (!found)
+        return 2;
+    else
+        return to_comp;
 }
 int Terminal::account_number_validation(int user_entry)
 {
@@ -406,7 +410,7 @@ int Terminal::account_number_validation(int user_entry)
     {
         to_find>>to_comp;
         to_find.ignore(100,':');
-        to_find.get(status,30,'\n');
+        to_find.get(status,30,':');
         to_find.ignore(100,'\n');
         if(user_entry == to_comp)
         {
@@ -416,14 +420,20 @@ int Terminal::account_number_validation(int user_entry)
                     <<"\nAccount Status: "<<status<<endl;
                 to_comp = 0;
             }
+            else if(!strcmp(status,"NA"))
+            {
+                cout<<"Memeber Number: "<<to_comp
+                    <<"\nAccount Status: New Provider. Account data not set up"<<endl;
+                to_comp = 3;
+            }
             found = false;
         }
     }
     to_find.clear();
     to_find.close();
-    if(found)
-        return 1;
-    return to_comp;
+    if(to_comp == 3 || to_comp == 0 || !found)
+        return to_comp;
+    return 2;
 }
 int Terminal::provide_service(information &info, char *file)
 {
@@ -435,7 +445,7 @@ int Terminal::provide_service(information &info, char *file)
         cin.ignore(100,'\n');
         member_numbers = member_number_validation(input);
         if(member_numbers == 2)
-            cout<<"\nMember Status: Invalid\n";
+            cout<<"\nMember does not exixit or a wrong entry\n";
         if(member_numbers == 3)
             cout<<"\nMember is newly added - mmember acount need verifcation \n";
 
@@ -495,6 +505,7 @@ int Terminal::provide_service(information &info, char *file)
    cout << "\nThe Provider's Directory: " << endl;
    directory.display_services();
 
+   int read_success = 0;
    do
    {
        do
@@ -506,6 +517,7 @@ int Terminal::provide_service(information &info, char *file)
        
        if(directory.verify_service(info.service_code) == 1)
        {
+           read_success = 1;
            directory.copy_info(info, info.service_code);
            cout << "Service Name: " << info.service_name << endl;
        }
@@ -516,7 +528,7 @@ int Terminal::provide_service(information &info, char *file)
        cout << "Verified (y/n): ";
        cin >> choice;
        cin.ignore();
-   }while(choice == 'n' || choice == 'N');
+   }while(choice == 'n' || !valid(info.service_code, 5) || !read_success);
 
    cout << "\nAny Additional Comments: ";
    cin.get(info.comments, SIZE, '\n');
@@ -682,7 +694,7 @@ int Terminal::add_new(int num_to_add, char *file)
         return 0;
 
     //NA = Not Available since they are new members not yet approved by ACME
-    output << num_to_add << ":" << "NA" << ":" << "NA" << endl;
+    output << num_to_add << ":" << "NA" << ":" << endl;
 
 }
 
@@ -732,8 +744,6 @@ int Terminal::add_providers(common_info &to_add, char *file, char *check_file)
 
     
     //generate provider number
-    provider_number = (rand() % 9999999) + 910000000;
-    to_add.Number = provider_number;
     do
     {
         provider_number = (rand() % 9999999) + 910000000;
