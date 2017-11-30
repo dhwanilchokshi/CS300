@@ -353,18 +353,17 @@ int Terminal::member_number_validation(int user_entry)
         to_find>>to_comp;
         to_find.ignore(100,':');
         to_find.get(status,30,':');
-        to_find.ignore(100,':');
         
         if(strcmp(status,"suspended") == 0)
         {
-            //to_find.ignore(100,':');
+            to_find.ignore(100,':');
             to_find>>fees;
             to_find.ignore(100,'\n');
         }
         else
             to_find.ignore(100,'\n');
 
-        if(user_entry == to_comp)
+        if(to_comp == user_entry)
         {
             if(!strcmp(status,"suspended"))
             {
@@ -377,9 +376,8 @@ int Terminal::member_number_validation(int user_entry)
             {
                 cout<<"\nMember Number: "<<to_comp;
                 cout<<"\nMember Number: "<<to_comp;
-                to_comp = 0;
+                to_comp = 3;
             }
-
             found = true;
         }
         fees = 0;
@@ -388,7 +386,7 @@ int Terminal::member_number_validation(int user_entry)
     to_find.close();
     if(found)
         return 1;
-    return 0;
+    return to_comp;
 }
 int Terminal::account_number_validation(int user_entry)
 {
@@ -436,11 +434,13 @@ int Terminal::provide_service(information &info, char *file)
         cin>>input;
         cin.ignore(100,'\n');
         member_numbers = member_number_validation(input);
-        if(member_numbers == 2 || !member_numbers)
+        if(member_numbers == 2)
             cout<<"\nMember Status: Invalid\n";
+        if(member_numbers == 3)
+            cout<<"\nMember is newly added - mmember acount need verifcation \n";
 
     }while(!member_numbers || member_numbers == 2);
-    if(!member_numbers)
+    if(!member_numbers || member_numbers == 3)
         return 0;
     else if(member_numbers == 1)
     {
