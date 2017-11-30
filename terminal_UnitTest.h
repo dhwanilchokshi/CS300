@@ -10,9 +10,12 @@ class UNIT_TEST
         void TEST_valid();
         void TEST_add_new();
         void TEST_read_validation();
-
+        void display();
+        void reading();
+        void remove();
 
     protected:
         Terminal TEST;
+        manage check;
     private:
 };
