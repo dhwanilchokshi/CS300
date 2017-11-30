@@ -339,11 +339,16 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
 
 int Terminal::member_number_validation(int user_entry)
 {
+    int flag = 0;
     ifstream to_find;
     if(user_entry >= 900000000 && user_entry <= 909999999)
         to_find.open("member_validation.txt");
     else
-        return 2;
+    {
+        flag = 2;
+        return flag;
+    }
+
     int to_comp;
     char status[30];
     float fees;
@@ -353,11 +358,10 @@ int Terminal::member_number_validation(int user_entry)
         to_find>>to_comp;
         to_find.ignore(100,':');
         to_find.get(status,30,':');
-        to_find.ignore(100,':');
         
         if(strcmp(status,"suspended") == 0)
         {
-            //to_find.ignore(100,':');
+            to_find.ignore(100,':');
             to_find>>fees;
             to_find.ignore(100,'\n');
         }
@@ -366,29 +370,30 @@ int Terminal::member_number_validation(int user_entry)
 
         if(user_entry == to_comp)
         {
-            if(!strcmp(status,"suspended"))
+            if(strcmp(status,"suspended") == 0)
             {
                 cout<<"\nMember Number: "<<to_comp
                     <<"\nStatus: "<<status
                     <<"\nUnpaid Fees: $"<<fees<<endl;
                 to_comp = 0;
+                flag = 0;
             }
             else if(!strcmp(status,"NA"))
             {
                 cout<<"\nMember Number: "<<to_comp;
                 cout<<"\nMember Number: "<<to_comp;
                 to_comp = 0;
+                flag = 0;
             }
-
+            else
+                flag = 1;
             found = true;
         }
         fees = 0;
     }
     to_find.clear();
     to_find.close();
-    if(found)
-        return 1;
-    return 0;
+    return flag;
 }
 int Terminal::account_number_validation(int user_entry)
 {
@@ -440,6 +445,7 @@ int Terminal::provide_service(information &info, char *file)
             cout<<"\nMember Status: Invalid\n";
 
     }while(!member_numbers || member_numbers == 2);
+
     if(!member_numbers)
         return 0;
     else if(member_numbers == 1)
@@ -495,6 +501,7 @@ int Terminal::provide_service(information &info, char *file)
    cout << "\nThe Provider's Directory: " << endl;
    directory.display_services();
 
+   int read_success = 0;
    do
    {
        do
@@ -506,6 +513,7 @@ int Terminal::provide_service(information &info, char *file)
        
        if(directory.verify_service(info.service_code) == 1)
        {
+           read_success = 1;
            directory.copy_info(info, info.service_code);
            cout << "Service Name: " << info.service_name << endl;
        }
@@ -516,7 +524,7 @@ int Terminal::provide_service(information &info, char *file)
        cout << "Verified (y/n): ";
        cin >> choice;
        cin.ignore();
-   }while(choice == 'n' || choice == 'N');
+   }while(choice == 'n' || !valid(info.service_code, 5) || !read_success);
 
    cout << "\nAny Additional Comments: ";
    cin.get(info.comments, SIZE, '\n');
