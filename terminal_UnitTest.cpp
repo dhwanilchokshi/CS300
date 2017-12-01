@@ -1,8 +1,7 @@
 #include "terminal_UnitTest.h"
 
-const char check[] = "ChocAn_providers.txt";
+char check[SIZE] = "ChocAn_providers.txt";
 const char memberCHOC_AN[] = "ChocAn_members.txt";
-const int SIZE = 50;
 
 int UNIT_TEST::TEST_EQUALS(int expected, int received)
 {
@@ -66,6 +65,7 @@ void UNIT_TEST::TEST_read_validation()
 
 void UNIT_TEST::display()
 {
+    cout << "\n\nTesting displaying with no data stored" << endl << endl;
     int success = check.display();
     if(success == 0)
         cout << "UNIT TEST PASSED" << endl;
@@ -75,6 +75,7 @@ void UNIT_TEST::display()
 
 void UNIT_TEST::reading()
 {
+    cout << "\n\nTesting reading from invalid txt file" << endl << endl;
     //testing reading from invalid file
     char test_empty [SIZE];
     int success = check.read_forms(test_empty);
@@ -85,8 +86,22 @@ void UNIT_TEST::reading()
 }
 void UNIT_TEST::remove()
 {
-    int successs = check.remove(0);
+    cout << "\n\nTesting removing with no data stored" << endl << endl;
+    int success = check.remove(0);
     if(success == 0)
+        cout << "UNIT TEST PASSED" << endl;
+    else
+        cout << "UNIT TEST FAILD" << endl;
+}
+void UNIT_TEST::testing_add()
+{
+    cout << "Testing adding to the BST of the meembers/providers information" << endl << endl;
+    int success =0;
+    char temp [SIZE];
+    strcpy(temp, "ChocAn_providers.txt");
+    check.read_forms(temp);
+    success = check.display();
+    if(success == 1)
         cout << "UNIT TEST PASSED" << endl;
     else
         cout << "UNIT TEST FAILD" << endl;

@@ -13,6 +13,7 @@ class UNIT_TEST
         void display();
         void reading();
         void remove();
+        void testing_add();
 
     protected:
         Terminal TEST;
