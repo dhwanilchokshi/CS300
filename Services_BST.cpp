@@ -1,10 +1,9 @@
-
 #include "Services_BST.h"
 
 
 
 //default constructor
-Services_BST::Services_BST(): right(NULL), left(NULL), service_code(0), service_cost(0)
+Services_BST::Services_BST(): service_code(0), service_cost(0), left(NULL), right(NULL)
 {
 }
 
@@ -96,6 +95,7 @@ int Services_BST::info_copy(struct information & copy)
     copy.service_code = service_code;
     copy.service_fee = service_cost;
     copy.service_name = service_name;
+    return 1;
 }
 
 /*

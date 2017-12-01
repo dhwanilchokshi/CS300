@@ -9,7 +9,7 @@ class UNIT_TEST
         void TEST_check_generated();
         void TEST_valid();
         void TEST_add_new();
-        void TEST_read_validation();
+        void TEST_read_write_validation();
 
 
     protected:

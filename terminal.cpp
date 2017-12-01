@@ -202,7 +202,7 @@ int Terminal::read_validation(char *file, int who)
     else if(who == 1)
         strcpy(file2, "provider_validation.txt");
     else
-        strcpy(file2, "mock_info.txt");
+        strcpy(file2, "mock_info_write.txt");
 
 
     int count_lines = 0;
@@ -212,7 +212,6 @@ int Terminal::read_validation(char *file, int who)
 
     if(!in)
     {
-        cout << "Sorry no such file to open!" << endl;
         return 0;
     }
 
@@ -343,7 +342,6 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
 
 int Terminal::member_number_validation(int user_entry)
 {
-    int flag = 0;
     ifstream to_find;
     if(user_entry >= 900000000 && user_entry <= 909999999)
         to_find.open("member_validation.txt");
@@ -445,7 +443,7 @@ int Terminal::provide_service(information &info, char *file)
         cin.ignore(100,'\n');
         member_numbers = member_number_validation(input);
         if(member_numbers == 2)
-            cout<<"\nMember does not exixit or a wrong entry\n";
+            cout<<"\nMember does not exist or a wrong entry\n";
         if(member_numbers == 3)
             cout<<"\nMember is newly added - mmember acount need verifcation \n";
 
@@ -635,9 +633,9 @@ int Terminal::directory_file_request()
         cout<<"ABORT. Something went wrong.\n";
         return 0;
     }
-    return 1;
     write.close();
     write.clear();
+    return 1;
 }
 
 int Terminal::add_members(common_info &to_add, char *file, char *check_file)
@@ -671,7 +669,7 @@ int Terminal::add_members(common_info &to_add, char *file, char *check_file)
         cin.ignore();
     }while(!valid(to_add.Zip, 5));
 
-    write_to_file(to_add, file);    //sent to ACME to update new members at 9pm
+    return write_to_file(to_add, file);    //sent to ACME to update new members at 9pm
     //member.read_forms(file);        //add members to bst
     //member.display();
 }
@@ -726,6 +724,7 @@ int Terminal::write_to_file(common_info to_add, char *file)
     output << to_add.Name << ":" << to_add.Number << ":" << to_add.Street_address << ":" << to_add.City << ":" << to_add.State << 
         ":" << to_add.Zip << '\n';
     output.close();
+    return 1;
 }
 
 int Terminal::add_providers(common_info &to_add, char *file, char *check_file)
@@ -760,8 +759,7 @@ int Terminal::add_providers(common_info &to_add, char *file, char *check_file)
         cin.ignore();
     }while(!valid(to_add.Zip, 5));
 
-    write_to_file(to_add, file);
-    provider.read_forms(file);        //add providers to bst
+    return write_to_file(to_add, file);
     //provider.display();
 }
 

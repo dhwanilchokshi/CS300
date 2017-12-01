@@ -55,7 +55,15 @@ void UNIT_TEST::TEST_add_new()
         cout << "UNIT TEST FAILED" << endl;
 }
 
-void UNIT_TEST::TEST_read_validation()
+void UNIT_TEST::TEST_read_write_validation()
 {
+    char mock_file[] = "mock_info_read.txt";
+    char fail_file[] = "";
+    int test_value = TEST.read_validation(mock_file, 3); 
+    int test_value2 = TEST.read_validation(fail_file, 3);
     
+    if(TEST_EQUALS(1, test_value) && TEST_EQUALS(0, test_value2))
+        cout << "UNIT TEST PASSED" << endl;
+    else
+        cout << "UNIT TEST FAILED" << endl;
 }
