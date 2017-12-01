@@ -1,0 +1,84 @@
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: 
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: þ
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: þ
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ü
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ý
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ý
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ý
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ü
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ü
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: þ
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: þ
+-------------------------------------------------------------
+Logged Date and Time: 11-30-2017 15:10:56
+Entered date: 11-30-2017
+Provider Number: 919999999
+Member Number: 909999999
+Service Code: 55555
+Comments: ÿ
+-------------------------------------------------------------

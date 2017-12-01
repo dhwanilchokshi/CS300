@@ -102,7 +102,7 @@ int Provider_Directory::copy_info(struct information & to_populate, int scanned_
         root->info_copy(to_populate);
         return 1;
     }
-        copy_info(to_populate, scanned_code, root->go_left()) + copy_info(to_populate, scanned_code, root->go_right());
+    return copy_info(to_populate, scanned_code, root->go_left()) + copy_info(to_populate, scanned_code, root->go_right());
  
 }
 
@@ -140,7 +140,7 @@ int Provider_Directory::copy(ofstream & write, Services_BST *& root)
         return 0;
    copy(write, root->go_left());
    root->directory_copy(write);
-   copy(write, root->go_right());
+   return copy(write, root->go_right());
 }
 
 /*
@@ -157,7 +157,7 @@ int Provider_Directory::display_services(Services_BST *& current)
         return 1;
     display_services(current->go_left());
     current->display_service();
-    display_services(current->go_right());
+    return display_services(current->go_right());
 }
 
 /*
@@ -174,7 +174,9 @@ int Provider_Directory::remove_services(Services_BST *& current)
         return 1;
     remove_services(current->go_left());
     remove_services(current->go_right());
-    delete current;
+    if(current)
+        delete current;
+return 1;
 }
 
 //end
