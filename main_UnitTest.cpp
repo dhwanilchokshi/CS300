@@ -5,6 +5,4 @@ int main()
     UNIT_TEST TEST;
     TEST.INTERFACE();
     return 1;
-
-return 0;
 }
