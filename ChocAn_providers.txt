@@ -3,3 +3,8 @@ Karla Fant:911922445:12345 NW Swan Dr:Portland:Oregon:97229:valid:
 Jingki Li:914567234:98332 SW Apt Ave:Portland:Oregon:97554:valid:
 David Ely:913678233:12669 NE Smith Ln:Tigard:Oregon:97221:valid:
 Sergio Antoy:915332876:98767 SW Downtown Ave:Portland:Oregon:97298:valid:
+Luanne Brummet:913452299:91231 SE Lin Ave:Beaverton:Oregon:13132:valid:
+Ann Sikora:912390021:90232 NE Southern Blvd:Portland:Oregon:34922:valid:
+Amberlee Si:910923456:92341 E Northern Ave:Beaverton:Oregon:24110:valid:
+Elias Small:913539222:91324 N Eastern Ave:Hillsboro:Oregon:92342:valid:
+Kimberly Smith:918992221:91029 S Vern Ave:Beaverton:Oregon:12343:valid:

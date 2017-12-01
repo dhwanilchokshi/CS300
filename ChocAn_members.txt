@@ -3,3 +3,12 @@ David Smith:905332876:98767 SW Downtown Ave:Portland:Oregon:97298:valid:
 Veronica John:909223445:44558 SE Estuary Dr:Beaverton:Oregon:97005:suspended:45.45:
 Zack Salah:903678233:12669 NE Smith Ln:Tigard:Oregon:97221:valid:
 Lilly Kyle:904567234:98332 SW Apt Ave:Portland:Oregon:97554:suspended:30.45:
+Jack Smith:903667554:93453 NE Random Ln:Beaverton:Oregon:94433:valid:
+Jones Guy:901223949:23423 SW Terrace Ave:Portland:Oregon:92341:valid:
+Jennette Bible:901235433:28435 NE Lane Ave:Hillsboro:Oregon:23234:suspended:90.55:
+Larry Zullo:904823319:80980 E Gill Ave:Portland:Oregon:99877:valid:
+Shala Jamal:908998093:13324 W Moody Ln:Beaverton:Oregon:34239:valid:
+Derrick Rose:905673422:95894 NW Gains Ave:Hillsboro:Oregon:12945:valid:
+Casey Kurtz:904562229:90234 NE Larry Ave:LakeOswego:Oregon:90231:suspended:89.59:
+Kina Lile:901238833:90231 SW Casey Ave:Beaverton:Oregon:97332:valid:
+Halley Trinkle:902334422:90132 NW Lee Blvd:Portland:Oregon:92211:valid:
