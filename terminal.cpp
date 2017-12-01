@@ -23,7 +23,7 @@ int Terminal::terminal_access()
             <<"Account number: ";
         cin>>input;
         cin.ignore(100, '\n');
-        input = account_number_validation(input);
+        input = account_number_validation(input, provider_valid_f, operator_valid_f, manager_valid_f);
         if(input == 2)
             cout<<"\nInvalid account number\n";
         else if(input == 1)
@@ -144,7 +144,7 @@ void Terminal::managers(int choice)
             cin.ignore(100, '\n');
             if(input >= 910000000 && input <= 919999999)
             {
-                input = account_number_validation(input);
+                input = account_number_validation(input, provider_valid_f, operator_valid_f, manager_valid_f);
                 if(input == 2)
                     cout<<"\nAccount does not exists\n";
                 else if(!input || input == 3);
@@ -336,12 +336,12 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
     
 }
 
-int Terminal::member_number_validation(int user_entry)
+int Terminal::member_number_validation(int user_entry, const char * file)
 {
     int flag = 0;
     ifstream to_find;
     if(user_entry >= 900000000 && user_entry <= 909999999)
-        to_find.open("member_validation.txt");
+        to_find.open(file);
     else
         return 2;
 
@@ -387,15 +387,15 @@ int Terminal::member_number_validation(int user_entry)
     else
         return to_comp;
 }
-int Terminal::account_number_validation(int user_entry)
+int Terminal::account_number_validation(int user_entry, const char * provider_f, const char * operator_f, const char * mamager_f)
 {
     ifstream to_find;
     if(user_entry >= 910000000 && user_entry <= 919999999)
-        to_find.open("provider_validation.txt");
+        to_find.open(provider_f);
     else if(user_entry >= 920000000 && user_entry <= 929999999)
-        to_find.open("operator_validation.txt");
+        to_find.open(operator_f);
     else if(user_entry >= 930000000 && user_entry <= 939999999)
-        to_find.open("manager_validation.txt");
+        to_find.open(mamager_f);
     else
         return 2;
     int to_comp;
@@ -438,7 +438,7 @@ int Terminal::provide_service(information &info, char *file)
             <<"Member Number :";
         cin>>input;
         cin.ignore(100,'\n');
-        member_numbers = member_number_validation(input);
+        member_numbers = member_number_validation(input, member_valid_f);
         if(member_numbers == 2)
             cout<<"\nMember does not exixit or a wrong entry\n";
         if(member_numbers == 3)
@@ -542,7 +542,7 @@ int Terminal::provide_service(information &info, char *file)
 
 int Terminal::get_disk_info(information& info)
 {
-   if(!write_to_file(info))
+   if(!write_to_file(info, disk))
        cout << "Unable to write information to file" << endl;
 
 
@@ -550,10 +550,10 @@ int Terminal::get_disk_info(information& info)
 
 }
 
-int Terminal::write_to_file(information info)
+int Terminal::write_to_file(information info, const char * file)
 {
    ofstream output;
-   output.open("disk_record.txt", ios::app);
+   output.open(file, ios::app);
 
    if(!output)
        return 0;
@@ -708,7 +708,7 @@ int Terminal::check_generated(int to_check, char *check_file)
     return success;
 }
 
-int Terminal::write_to_file(common_info to_add, char *file)
+int Terminal::write_to_file(common_info to_add, const char *file)
 {
     ofstream output;
     output.open(file, ios::app);
@@ -719,6 +719,7 @@ int Terminal::write_to_file(common_info to_add, char *file)
     output << to_add.Name << ":" << to_add.Number << ":" << to_add.Street_address << ":" << to_add.City << ":" << to_add.State << 
         ":" << to_add.Zip << '\n';
     output.close();
+    return 1;
 }
 
 int Terminal::add_providers(common_info &to_add, char *file, char *check_file)

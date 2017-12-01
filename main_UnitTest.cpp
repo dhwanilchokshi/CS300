@@ -2,5 +2,7 @@
 
 int main()
 {
+    UNIT_TEST t1;
+    t1.INTERFACE();
     return 1;
 }
