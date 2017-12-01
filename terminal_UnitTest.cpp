@@ -1,5 +1,42 @@
 #include "terminal_UnitTest.h"
 
+int UNIT_TEST::TEST_EQUALS(int expected, int received)
+{
+    if(expected == received)
+        return 1;
+    return 0;
+}
+
+void UNIT_TEST::TEST_check_generated()
+{
+    char mock_file[] = "mock_member.txt";
+    
+    //function should return 1
+    int mock_num = 901000000;
+    int test_value = TERMINAL_TEST.check_generated(mock_num, mock_file);
+    //function should return 0
+    int mock_num2 = 902000000; 
+    int test_value2 = TERMINAL_TEST.check_generated(mock_num2, mock_file);
+
+    if(TEST_EQUALS(1, test_value) && TEST_EQUALS(0, test_value2))
+        cout << "TEST PASSED" << endl;
+    else
+        cout << "TEST FAILED" << endl;
+}
+
+void UNIT_TEST::TEST_valid()
+{
+    int pass_value = 10000;
+    int test_value = TERMINAL_TEST.valid(pass_value, 5);
+    int fail_value = 100;
+    int test_value2 = TERMINAL_TEST.valid(fail_value, 5);
+
+    if(TEST_EQUALS(1, test_value) && TEST_EQUALS(0, test_value2))
+        cout << "TEST PASSED" << endl;
+    else
+        cout << "TEST FAILED" << endl;
+}
+
 
 UNIT_TEST::UNIT_TEST(): limit(5)
 {
@@ -15,18 +52,44 @@ int UNIT_TEST::INTERFACE()
     for(int i = 0; i < limit; ++i)
     {
         if((this->*TO_TEST[i])())
-           cout<<"\nPASS\n";
+            cout << "TEST PASSED" << endl;
         else 
-           cout<<"\nFAIL\n";
+            cout << "TEST FAILED" << endl;
     }
+    TEST_check_generated();
+    TEST_valid();
+    TEST_add_new();
+    TEST_read_write_validation();
+
     return 1;
 }
-int UNIT_TEST::TEST_check_generated()
+void UNIT_TEST::TEST_add_new()
 {
+    int mock_num = 909000000;
     char mock_file[] = "mock_member.txt";
+    char fail_file[] = "";
+
+    int test_value = TERMINAL_TEST.add_new(mock_num, mock_file);
+
+    int test_value2 = TERMINAL_TEST.add_new(mock_num, fail_file);
+
+    if(TEST_EQUALS(1, test_value) && TEST_EQUALS(0, test_value2))
+        cout << "TEST PASSED" << endl;
+    else
+        cout << "TEST FAILED" << endl;
+}
+
+void UNIT_TEST::TEST_read_write_validation()
+{
+    char mock_file[] = "mock_info_read.txt";
+    char fail_file[] = "";
+    int test_value = TERMINAL_TEST.read_validation(mock_file, 3); 
+    int test_value2 = TERMINAL_TEST.read_validation(fail_file, 3);
     
-    //int value = MEMBER_TEST.check_generated
-    return 1;
+    if(TEST_EQUALS(1, test_value) && TEST_EQUALS(0, test_value2))
+        cout << "TEST PASSED" << endl;
+    else
+        cout << "TEST FAILED" << endl;
 }
 int UNIT_TEST::TEST_member_number_validation()
 {

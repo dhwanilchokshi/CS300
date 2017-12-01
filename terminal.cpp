@@ -3,6 +3,9 @@ using namespace std;
 
 //Terminal class
 
+const char memberCHOC_AN[] = "ChocAn_members.txt";
+const char providerCHOC_AN[] = "ChocAn_providers.txt";
+
 Terminal::Terminal(): member_numbers(0), provider_numbers(0), manager_numbers(NULL), operator_numbers(NULL), member_status(NULL)
 {
     srand(time(0));
@@ -196,8 +199,10 @@ int Terminal::read_validation(char *file, int who)
     {
         strcpy(file2, "member_validation.txt");
     }
-    else
+    else if(who == 1)
         strcpy(file2, "provider_validation.txt");
+    else
+        strcpy(file2, "mock_info_write.txt");
 
 
     int count_lines = 0;
@@ -207,7 +212,6 @@ int Terminal::read_validation(char *file, int who)
 
     if(!in)
     {
-        cout << "Sorry no such file to open!" << endl;
         return 0;
     }
 
@@ -338,7 +342,6 @@ int Terminal::write_validation(int count_lines, int *numbers, string status[], f
 
 int Terminal::member_number_validation(int user_entry, const char * file)
 {
-    int flag = 0;
     ifstream to_find;
     if(user_entry >= 900000000 && user_entry <= 909999999)
         to_find.open(file);
@@ -440,7 +443,7 @@ int Terminal::provide_service(information &info, char *file)
         cin.ignore(100,'\n');
         member_numbers = member_number_validation(input, member_valid_f);
         if(member_numbers == 2)
-            cout<<"\nMember does not exixit or a wrong entry\n";
+            cout<<"\nMember does not exist or a wrong entry\n";
         if(member_numbers == 3)
             cout<<"\nMember is newly added - mmember acount need verifcation \n";
 
@@ -630,9 +633,9 @@ int Terminal::directory_file_request()
         cout<<"ABORT. Something went wrong.\n";
         return 0;
     }
-    return 1;
     write.close();
     write.clear();
+    return 1;
 }
 
 int Terminal::add_members(common_info &to_add, char *file, char *check_file)
@@ -666,7 +669,7 @@ int Terminal::add_members(common_info &to_add, char *file, char *check_file)
         cin.ignore();
     }while(!valid(to_add.Zip, 5));
 
-    write_to_file(to_add, file);    //sent to ACME to update new members at 9pm
+    return write_to_file(to_add, file);    //sent to ACME to update new members at 9pm
     //member.read_forms(file);        //add members to bst
     //member.display();
 }
@@ -681,6 +684,8 @@ int Terminal::add_new(int num_to_add, char *file)
 
     //NA = Not Available since they are new members not yet approved by ACME
     output << num_to_add << ":" << "NA" << ":" << endl;
+    output.close();
+    return 1;
 
 }
 
@@ -754,8 +759,7 @@ int Terminal::add_providers(common_info &to_add, char *file, char *check_file)
         cin.ignore();
     }while(!valid(to_add.Zip, 5));
 
-    write_to_file(to_add, file);
-    provider.read_forms(file);        //add providers to bst
+    return write_to_file(to_add, file);
     //provider.display();
 }
 

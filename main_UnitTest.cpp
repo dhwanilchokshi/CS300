@@ -2,7 +2,9 @@
 
 int main()
 {
-    UNIT_TEST t1;
-    t1.INTERFACE();
+    UNIT_TEST TEST;
+    TEST.INTERFACE();
     return 1;
+
+return 0;
 }
